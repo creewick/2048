@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>2048</title>
+</head>
+<style>
+    @font-face {
+        font-family: 'ClearSans';
+        src: url("./font.ttf");
+    }
+    html, body { padding: 0; margin: 0; background: black; }
+    canvas { background: black; }
+    div { position: absolute; top: 50%; left: 50%;
+          transform: translateX(-50%) translateY(-50%);
+          font-family: ClearSans,serif; color: white;
+          font-size: 0; }
+</style>
+<body>
+    <script src="phaser.js"></script>
+    <script src="vector.js"></script>
+    <script src="mover.js"></script>
+    <script src="control.js"></script>
+    <script src="logic.js"></script>
+    <script src="gui.js"></script>
+    <div id="myGame">2048</div>
+    <script>
+        let size = Math.min(window.innerHeight, window.innerWidth);
+        let logic = new Logic();
+        let gui = new GUI(logic);
+        let game = new Phaser.Game(size, size, Phaser.AUTO, 'myGame',
+                                   gui, false, false);
+    </script>
+</body>
+</html>
