@@ -71,7 +71,7 @@ class GUI extends Phaser.State {
 
     createText(x, y){
         let size = this.game.width;
-        let length = String(this.logic.field[y][x]).length;
+        let length = String(this.logic.field[y][x]).length - 1;
         let style = {
             font: `bold ${size / (12 + 2 * length)}px ClearSans`,
             boundsAlignH: 'center',
