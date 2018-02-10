@@ -23,14 +23,15 @@
     <script src="scripts/mover.js"></script>
     <script src="scripts/control.js"></script>
     <script src="scripts/logic.js"></script>
+    <script src="scripts/start.js"></script>
     <script src="scripts/gui.js"></script>
     <div id="myGame">2048</div>
     <script>
         let size = Math.min(window.innerHeight, window.innerWidth);
         let logic = new Logic();
-        let gui = new GUI(logic);
         let game = new Phaser.Game(size, size, Phaser.AUTO, 'myGame',
-                                   gui, false, false);
+                                   new start(), false, false);
+        game.state.add('level', new GUI(logic));
     </script>
 </body>
 </html>

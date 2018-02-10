@@ -31,12 +31,14 @@ class GUI extends Phaser.State {
         this.game.load.audio('gun', './sounds/00002a2e.wav');
         this.game.load.audio('death1', './sounds/000029ad.wav');
         this.game.load.audio('success', './sounds/000029e9.wav');
-        this.game.load.audio('start2', './sounds/000029f7.wav');
-        this.game.load.audio('start1', './sounds/000029f8.wav');
         this.game.load.audio('bgm', './sounds/dogsong.wav');
+        this.game.load.audio('start2', './sounds/000029f7.wav');
+
     }
 
     create() {
+        this.start = this.game.add.audio('start2');
+        this.start.play();
         this.bgm = this.game.add.audio('bgm');
         this.bgm.loop = true;
         this.bgm.play();
