@@ -170,16 +170,16 @@ class Logic {
     }
 
     shouldAddGun(){
-        return (Logic.randomInt(1, 2048 * 2) < this.sum() &&
+        return (Logic.randomInt(1, 2048 * 16) < this.max() &&
                 this.guns.length < 4);
     }
 
-    sum(){
-        let sum = 0;
+    max(){
+        let result = 0;
         for (let y = 0; y < 4; y++)
             for (let x = 0; x < 4; x++)
-                sum += this.field[y][x];
-        return sum;
+                result = Math.max(result, this.field[y][x]);
+        return result;
     }
 
     placeTile() {
