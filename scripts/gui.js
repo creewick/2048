@@ -71,8 +71,9 @@ class GUI extends Phaser.State {
 
     createText(x, y){
         let size = this.game.width;
+        let length = String(this.logic.field[y][x]).length;
         let style = {
-            font: `bold ${size / 12}px ClearSans`,
+            font: `bold ${size / (12 + 2 * length)}px ClearSans`,
             boundsAlignH: 'center',
             boundsAlignV: 'middle',
         };
@@ -193,8 +194,9 @@ class GUI extends Phaser.State {
         this.field[y][x].rect.position = new PIXI.Point(
             rectDrawCoords.x - 1, rectDrawCoords.y - 1
         );
+        let textDrawCoords = this.toDrawCoords(textLogicCoords);
         this.field[y][x].text.position = new PIXI.Point(
-            ...this.toDrawCoords(textLogicCoords).values()
+            textDrawCoords.x - 1, textDrawCoords.y - 1
         );
     }
 
