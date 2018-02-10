@@ -22,20 +22,6 @@ class GUI extends Phaser.State {
         };
     }
 
-    preload() {
-        this.game.load.image('player', './images/player.png');
-        this.game.load.image('dead', './images/red1.png');
-        this.game.load.image('gun', './images/blaster.png');
-        this.game.load.audio('shoot', './sounds/00000000.wav');
-        this.game.load.audio('death2', './sounds/00002a1a.wav');
-        this.game.load.audio('gun', './sounds/00002a2e.wav');
-        this.game.load.audio('death1', './sounds/000029ad.wav');
-        this.game.load.audio('success', './sounds/000029e9.wav');
-        this.game.load.audio('bgm', './sounds/dogsong.wav');
-        this.game.load.audio('start2', './sounds/000029f7.wav');
-
-    }
-
     create() {
         this.start = this.game.add.audio('start2');
         this.start.play();
