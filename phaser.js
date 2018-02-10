@@ -875,7 +875,7 @@ AABB.prototype.copy = function(aabb){
  * @param  {AABB} aabb
  */
 AABB.prototype.extend = function(aabb){
-    // Loop over x and y
+    // Loop isOver x and y
     var i = 2;
     while(i--){
         // Extend lower bound
@@ -1385,7 +1385,7 @@ Narrowphase.prototype.bodiesOverlap = function(bodyA, bodyB){
     var shapePositionA = bodiesOverlap_shapePositionA;
     var shapePositionB = bodiesOverlap_shapePositionB;
 
-    // Loop over all shapes of bodyA
+    // Loop isOver all shapes of bodyA
     for(var k=0, Nshapesi=bodyA.shapes.length; k!==Nshapesi; k++){
         var shapeA = bodyA.shapes[k];
 
@@ -2967,7 +2967,7 @@ Narrowphase.prototype.convexConvex = function(  bi,si,xi,ai, bj,sj,xj,aj, justTe
         return 0;
     }
 
-    // Loop over the shapes
+    // Loop isOver the shapes
     for(var k=0; k<2; k++){
 
         var closestEdgeA = closestEdge1,
@@ -3001,7 +3001,7 @@ Narrowphase.prototype.convexConvex = function(  bi,si,xi,ai, bj,sj,xj,aj, justTe
             bodyB = tmp;
         }
 
-        // Loop over 2 points in convex B
+        // Loop isOver 2 points in convex B
         for(var j=closestEdgeB; j<closestEdgeB+2; j++){
 
             // Get world point
@@ -3011,7 +3011,7 @@ Narrowphase.prototype.convexConvex = function(  bi,si,xi,ai, bj,sj,xj,aj, justTe
 
             var insideNumEdges = 0;
 
-            // Loop over the 3 closest edges in convex A
+            // Loop isOver the 3 closest edges in convex A
             for(var i=closestEdgeA-1; i<closestEdgeA+2; i++){
 
                 var v0 = shapeA.vertices[(i  +shapeA.vertices.length)%shapeA.vertices.length],
@@ -3604,7 +3604,7 @@ Narrowphase.prototype.convexHeightfield = function( convexBody,convexShape,conve
     var found = false;
     var numContacts = 0;
 
-    // Loop over all edges
+    // Loop isOver all edges
     // TODO: If possible, construct a convex from several data points (need o check if the points make a convex shape)
     for(var i=idxA; i<idxB; i++){
 
@@ -4035,7 +4035,7 @@ RaycastResult.prototype.getHitPoint = function (out, ray) {
 };
 
 /**
- * Can be called while iterating over hits to stop searching for hit points.
+ * Can be called while iterating isOver hits to stop searching for hit points.
  * @method stop
  */
 RaycastResult.prototype.stop = function(){
@@ -4097,7 +4097,7 @@ function SAPBroadphase(){
     this.axisList = [];
 
     /**
-     * The axis to sort along. 0 means x-axis and 1 y-axis. If your bodies are more spread out over the X axis, set axisIndex to 0, and you will gain some performance.
+     * The axis to sort along. 0 means x-axis and 1 y-axis. If your bodies are more spread out isOver the X axis, set axisIndex to 0, and you will gain some performance.
      * @property axisIndex
      * @type {Number}
      */
@@ -10041,7 +10041,7 @@ Convex.prototype.updateTriangles = function(){
     // Triangulate
     var triangles = polyk.Triangulate(polykVerts);
 
-    // Loop over all triangles, add their inertia contributions to I
+    // Loop isOver all triangles, add their inertia contributions to I
     for(var i=0; i<triangles.length; i+=3){
         var id1 = triangles[i],
             id2 = triangles[i+1],
@@ -11130,7 +11130,7 @@ GSSolver.prototype.solve = function(h, world){
         }
 
         if(maxFrictionIter){
-            // Iterate over contact equations to get normal forces
+            // Iterate isOver contact equations to get normal forces
             for(iter=0; iter!==maxFrictionIter; iter++){
 
                 // Accumulate the total error for each iteration.
@@ -11168,7 +11168,7 @@ GSSolver.prototype.solve = function(h, world){
             }
         }
 
-        // Iterate over all equations
+        // Iterate isOver all equations
         for(iter=0; iter!==maxIter; iter++){
 
             // Accumulate the total error for each iteration.
@@ -13032,7 +13032,7 @@ World.prototype.internalStep = function(dt){
         var bi = result[i],
             bj = result[i+1];
 
-        // Loop over all shapes of body i
+        // Loop isOver all shapes of body i
         for(var k=0, Nshapesi=bi.shapes.length; k!==Nshapesi; k++){
             var si = bi.shapes[k],
                 xi = si.position,
@@ -13961,7 +13961,7 @@ PIXI.DisplayObject.prototype = {
     * If the object has no parent, and no parent parameter is provided, it will default to
     * Phaser.Game.World as the parent transform to use. If that is unavailable the transform fails to take place.
     *
-    * The `parent` parameter has priority over the actual parent. Use it as a parent override.
+    * The `parent` parameter has priority isOver the actual parent. Use it as a parent override.
     * Setting it does **not** change the actual parent of this DisplayObject.
     *
     * Calling this method updates the `worldTransform`, `worldAlpha`, `worldPosition`, `worldScale`
@@ -19601,7 +19601,7 @@ PIXI.WebGLFilterManager.prototype.popFilter = function()
         if(!outputTexture)outputTexture = new PIXI.FilterTexture(this.gl, this.width * this.renderSession.resolution, this.height * this.renderSession.resolution);
         outputTexture.resize(this.width * this.renderSession.resolution, this.height * this.renderSession.resolution);
 
-        // need to clear this FBO as it may have some left over elements from a previous filter.
+        // need to clear this FBO as it may have some left isOver elements from a previous filter.
         gl.bindFramebuffer(gl.FRAMEBUFFER, outputTexture.frameBuffer );
         gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -20464,7 +20464,7 @@ PIXI.CanvasRenderer.prototype.render = function (root) {
     this.renderSession.shakeX = this.game.camera._shake.x;
     this.renderSession.shakeY = this.game.camera._shake.y;
 
-    this.context.globalCompositeOperation = 'source-over';
+    this.context.globalCompositeOperation = 'source-isOver';
 
     if (navigator.isCocoonJS && this.view.screencanvas)
     {
@@ -20578,23 +20578,23 @@ PIXI.CanvasRenderer.prototype.mapBlendModes = function () {
         var modes = PIXI.blendModes;
         var useNew = this.game.device.canUseMultiply;
 
-        b[modes.NORMAL] = 'source-over';
+        b[modes.NORMAL] = 'source-isOver';
         b[modes.ADD] = 'lighter';
-        b[modes.MULTIPLY] = (useNew) ? 'multiply' : 'source-over';
-        b[modes.SCREEN] = (useNew) ? 'screen' : 'source-over';
-        b[modes.OVERLAY] = (useNew) ? 'overlay' : 'source-over';
-        b[modes.DARKEN] = (useNew) ? 'darken' : 'source-over';
-        b[modes.LIGHTEN] = (useNew) ? 'lighten' : 'source-over';
-        b[modes.COLOR_DODGE] = (useNew) ? 'color-dodge' : 'source-over';
-        b[modes.COLOR_BURN] = (useNew) ? 'color-burn' : 'source-over';
-        b[modes.HARD_LIGHT] = (useNew) ? 'hard-light' : 'source-over';
-        b[modes.SOFT_LIGHT] = (useNew) ? 'soft-light' : 'source-over';
-        b[modes.DIFFERENCE] = (useNew) ? 'difference' : 'source-over';
-        b[modes.EXCLUSION] = (useNew) ? 'exclusion' : 'source-over';
-        b[modes.HUE] = (useNew) ? 'hue' : 'source-over';
-        b[modes.SATURATION] = (useNew) ? 'saturation' : 'source-over';
-        b[modes.COLOR] = (useNew) ? 'color' : 'source-over';
-        b[modes.LUMINOSITY] = (useNew) ? 'luminosity' : 'source-over';
+        b[modes.MULTIPLY] = (useNew) ? 'multiply' : 'source-isOver';
+        b[modes.SCREEN] = (useNew) ? 'screen' : 'source-isOver';
+        b[modes.OVERLAY] = (useNew) ? 'overlay' : 'source-isOver';
+        b[modes.DARKEN] = (useNew) ? 'darken' : 'source-isOver';
+        b[modes.LIGHTEN] = (useNew) ? 'lighten' : 'source-isOver';
+        b[modes.COLOR_DODGE] = (useNew) ? 'color-dodge' : 'source-isOver';
+        b[modes.COLOR_BURN] = (useNew) ? 'color-burn' : 'source-isOver';
+        b[modes.HARD_LIGHT] = (useNew) ? 'hard-light' : 'source-isOver';
+        b[modes.SOFT_LIGHT] = (useNew) ? 'soft-light' : 'source-isOver';
+        b[modes.DIFFERENCE] = (useNew) ? 'difference' : 'source-isOver';
+        b[modes.EXCLUSION] = (useNew) ? 'exclusion' : 'source-isOver';
+        b[modes.HUE] = (useNew) ? 'hue' : 'source-isOver';
+        b[modes.SATURATION] = (useNew) ? 'saturation' : 'source-isOver';
+        b[modes.COLOR] = (useNew) ? 'color' : 'source-isOver';
+        b[modes.LUMINOSITY] = (useNew) ? 'luminosity' : 'source-isOver';
 
         PIXI.blendModesCanvas = b;
     }
@@ -21916,7 +21916,7 @@ if (!Object.assign) {
         for (var index = 1; index < arguments.length; index++) {
             var nextSource = arguments[index];
 
-            if (nextSource != null) { // Skip over if undefined or null
+            if (nextSource != null) { // Skip isOver if undefined or null
                 for (var nextKey in nextSource) {
                     // Avoid bugs when hasOwnProperty is shadowed
                     if (hasOwn.call(nextSource, nextKey)) {
@@ -24456,7 +24456,7 @@ Phaser.Matrix.prototype = {
 
     /**
      * Creates a new Matrix object based on the values of this Matrix.
-     * If you provide the output parameter the values of this Matrix will be copied over to it.
+     * If you provide the output parameter the values of this Matrix will be copied isOver to it.
      * If the output parameter is blank a new Matrix object will be created.
      *
      * @method Phaser.Matrix#clone
@@ -27861,7 +27861,7 @@ Phaser.Camera.prototype = {
 
     /**
     * This creates a camera flash effect. It works by filling the game with the solid fill
-    * color specified, and then fading it away to alpha 0 over the duration given.
+    * color specified, and then fading it away to alpha 0 isOver the duration given.
     *
     * You can use this for things such as hit feedback effects.
     *
@@ -27903,7 +27903,7 @@ Phaser.Camera.prototype = {
 
     /**
     * This creates a camera fade effect. It works by filling the game with the
-    * color specified, over the duration given, ending with a solid fill.
+    * color specified, isOver the duration given, ending with a solid fill.
     *
     * You can use this for things such as transitioning to a new scene.
     *
@@ -30307,7 +30307,7 @@ Phaser.Filter = function (game, uniforms, fragmentSrc) {
 
     };
 
-    //  Copy over / replace any passed in the constructor
+    //  Copy isOver / replace any passed in the constructor
     if (uniforms)
     {
         for (var key in uniforms)
@@ -30332,13 +30332,13 @@ Phaser.Filter = function (game, uniforms, fragmentSrc) {
 Phaser.Filter.prototype = {
 
     /**
-    * This should be over-ridden. Will receive a variable number of arguments.
+    * This should be isOver-ridden. Will receive a variable number of arguments.
     *
     * @method Phaser.Filter#init
     */
     init: function () {
 
-        //  This should be over-ridden. Will receive a variable number of arguments.
+        //  This should be isOver-ridden. Will receive a variable number of arguments.
 
     },
 
@@ -31598,7 +31598,7 @@ Phaser.Group = function (game, parent, name, addToStage, enableBody, physicsBody
     *
     * This Signal is sent 3 arguments: A reference to the Sprite that triggered the signal,
     * a reference to the Pointer that caused it, and a boolean value `isOver` that tells you if the Pointer
-    * is still over the Sprite or not.
+    * is still isOver the Sprite or not.
     *
     * @property {Phaser.Signal} onChildInputUp
     */
@@ -33535,7 +33535,7 @@ Phaser.Group.prototype.descendingSortHandler = function (a, b) {
 };
 
 /**
-* Iterates over the children of the group performing one of several actions for matched children.
+* Iterates isOver the children of the group performing one of several actions for matched children.
 *
 * A child is considered a match when it has a property, named `key`, whose value is equal to `value`
 * according to a strict equality comparison.
@@ -35368,7 +35368,7 @@ Phaser.Game = function (width, height, renderer, parent, state, transparent, ant
 
     /**
     * If `false` Phaser will automatically render the display list every update. If `true` the render loop will be skipped.
-    * You can toggle this value at run-time to gain exact act over when Phaser renders. This can be useful in certain types of game or application.
+    * You can toggle this value at run-time to gain exact act isOver when Phaser renders. This can be useful in certain types of game or application.
     * Please note that if you don't render the display list then none of the game object transforms will be updated, so use this value carefully.
     * @property {boolean} lockRender
     * @default
@@ -36163,7 +36163,7 @@ Phaser.Game.prototype = {
     * After this State.render is called. Any rendering that happens here will take place on-top of the display list.
     * Finally plugin.postRender is called on any loaded plugins, in the order in which they were enabled.
     * This method is called automatically by Game.update, you don't need to call it directly.
-    * Should you wish to have fine-grained act over when Phaser renders then use the `Game.lockRender` boolean.
+    * Should you wish to have fine-grained act isOver when Phaser renders then use the `Game.lockRender` boolean.
     * Phaser will only render when this boolean is `false`.
     *
     * @method Phaser.Game#updateRender
@@ -36956,7 +36956,7 @@ Phaser.Input.prototype = {
     * that don't meet the criteria (i.e. they aren't under the Pointer, are disabled, invisible, etc).
     *
     * Eventually a short-list of 'candidates' is created. These are all of the Game Objects which are valid
-    * for input and overlap with the Pointer. If you need fine-grained act over which of the items is
+    * for input and overlap with the Pointer. If you need fine-grained act isOver which of the items is
     * selected then you can use this callback to do so.
     *
     * The callback will be sent 3 parameters:
@@ -37717,7 +37717,7 @@ Object.defineProperty(Phaser.Input.prototype, "worldY", {
 *
 * It captures and processes mouse events that happen on the game canvas object.
 * It also adds a single `mouseup` listener to `window` which is used to capture the mouse being released
-* when not over the game.
+* when not isOver the game.
 *
 * You should not normally access this class directly, but instead use a Phaser.Pointer object
 * which normalises all game input for you, including accurate button handling.
@@ -37755,7 +37755,7 @@ Phaser.Mouse = function (game) {
     this.mouseUpCallback = null;
 
     /**
-    * @property {function} mouseOutCallback - A callback that can be fired when the mouse is no longer over the game canvas.
+    * @property {function} mouseOutCallback - A callback that can be fired when the mouse is no longer isOver the game canvas.
     */
     this.mouseOutCallback = null;
 
@@ -38189,7 +38189,7 @@ Phaser.Mouse.prototype = {
     },
 
     /**
-    * The internal method that handles the mouse over event from the browser.
+    * The internal method that handles the mouse isOver event from the browser.
     *
     * @method Phaser.Mouse#onMouseOver
     * @param {MouseEvent} event - The native event from the browser. This gets stored in Mouse.event.
@@ -39418,7 +39418,7 @@ Phaser.Pointer = function (game, id, pointerMode) {
     this._stateReset = false;
 
     /**
-    * @property {boolean} withinGame - true if the Pointer is over the game canvas, otherwise false.
+    * @property {boolean} withinGame - true if the Pointer is isOver the game canvas, otherwise false.
     */
     this.withinGame = false;
 
@@ -39540,7 +39540,7 @@ Phaser.Pointer = function (game, id, pointerMode) {
     this.msSinceLastClick = Number.MAX_VALUE;
 
     /**
-    * @property {any} targetObject - The Game Object this Pointer is currently over / touching / dragging.
+    * @property {any} targetObject - The Game Object this Pointer is currently isOver / touching / dragging.
     * @default
     */
     this.targetObject = null;
@@ -39548,7 +39548,7 @@ Phaser.Pointer = function (game, id, pointerMode) {
     /**
     * This array is erased and re-populated every time this Pointer is updated. It contains references to all
     * of the Game Objects that were considered as being valid for processing by this Pointer, this frame. To be
-    * valid they must have suitable a `priorityID`, be Input enabled, visible and actually have the Pointer over
+    * valid they must have suitable a `priorityID`, be Input enabled, visible and actually have the Pointer isOver
     * them. You can check the contents of this array in events such as `onInputDown`, but beware it is reset
     * every frame.
     * @property {array} interactiveCandidates
@@ -39563,7 +39563,7 @@ Phaser.Pointer = function (game, id, pointerMode) {
     this.active = false;
 
     /**
-    * @property {boolean} dirty - A dirty pointer needs to re-poll any interactive objects it may have been over, regardless if it has moved or not.
+    * @property {boolean} dirty - A dirty pointer needs to re-poll any interactive objects it may have been isOver, regardless if it has moved or not.
     * @default
     */
     this.dirty = false;
@@ -40089,7 +40089,7 @@ Phaser.Pointer.prototype = {
         var highestInputPriorityID = -1;
         var candidateTarget = null;
 
-        //  First pass gets all objects that the pointer is over that DON'T use pixelPerfect checks and get the highest ID
+        //  First pass gets all objects that the pointer is isOver that DON'T use pixelPerfect checks and get the highest ID
         //  We know they'll be valid for input detection but not which is the top just yet
 
         var currentNode = this.game.input.interactiveItems.first;
@@ -40157,7 +40157,7 @@ Phaser.Pointer.prototype = {
     /**
     * This will change the `Pointer.targetObject` object to be the one provided.
     *
-    * This allows you to have fine-grained act over which object the Pointer is targeting.
+    * This allows you to have fine-grained act isOver which object the Pointer is targeting.
     *
     * Note that even if you set a new Target here, it is still able to be replaced by any other valid
     * target during the next Pointer update.
@@ -40173,7 +40173,7 @@ Phaser.Pointer.prototype = {
         //  Now we know the top-most item (if any) we can process it
         if (newTarget === null)
         {
-            //  The pointer isn't currently over anything, check if we've got a lingering previous target
+            //  The pointer isn't currently isOver anything, check if we've got a lingering previous target
             if (this.targetObject)
             {
                 this.targetObject._pointerOutHandler(this, silent);
@@ -40980,7 +40980,7 @@ Phaser.InputHandler = function (sprite) {
     this.priorityID = 0;
 
     /**
-    * @property {boolean} useHandCursor - On a desktop browser you can set the 'hand' cursor to appear when moving over the Sprite.
+    * @property {boolean} useHandCursor - On a desktop browser you can set the 'hand' cursor to appear when moving isOver the Sprite.
     * @default
     */
     this.useHandCursor = false;
@@ -41058,17 +41058,17 @@ Phaser.InputHandler = function (sprite) {
     this.snapOffsetY = 0;
 
     /**
-    * Set to true to use pixel perfect hit detection when checking if the pointer is over this Sprite.
+    * Set to true to use pixel perfect hit detection when checking if the pointer is isOver this Sprite.
     * The x/y coordinates of the pointer are tested against the image in combination with the InputHandler.pixelPerfectAlpha value.
     * This feature only works for display objects with image based textures such as Sprites. It won't work on BitmapText or Rope.
     * Warning: This is expensive, especially on mobile (where it's not even needed!) so only enable if required. Also see the less-expensive InputHandler.pixelPerfectClick.
-    * @property {boolean} pixelPerfectOver - Use a pixel perfect check when testing for pointer over.
+    * @property {boolean} pixelPerfectOver - Use a pixel perfect check when testing for pointer isOver.
     * @default
     */
     this.pixelPerfectOver = false;
 
     /**
-    * Set to true to use pixel perfect hit detection when checking if the pointer is over this Sprite when it's clicked or touched.
+    * Set to true to use pixel perfect hit detection when checking if the pointer is isOver this Sprite when it's clicked or touched.
     * The x/y coordinates of the pointer are tested against the image in combination with the InputHandler.pixelPerfectAlpha value.
     * This feature only works for display objects with image based textures such as Sprites. It won't work on BitmapText or Rope.
     * Warning: This is expensive so only enable if you really need it.
@@ -41132,7 +41132,7 @@ Phaser.InputHandler = function (sprite) {
     this.dragDistanceThreshold = 0;
 
     /**
-    * @property {integer} dragTimeThreshold - The amount of time, in ms, the pointer has to be held down over the Sprite before it thinks it is being dragged.
+    * @property {integer} dragTimeThreshold - The amount of time, in ms, the pointer has to be held down isOver the Sprite before it thinks it is being dragged.
     */
     this.dragTimeThreshold = 0;
 
@@ -41220,8 +41220,8 @@ Phaser.InputHandler.prototype = {
     * Starts the Input Handler running. This is called automatically when you enable input on a Sprite, or can be called directly if you need to set a specific priority.
     *
     * @method Phaser.InputHandler#start
-    * @param {number} [priority=0] - Higher priority sprites take click priority over low-priority sprites when they are stacked on-top of each other.
-    * @param {boolean} [useHandCursor=false] - If true the Sprite will show the hand cursor on mouse-over (doesn't apply to mobile browsers)
+    * @param {number} [priority=0] - Higher priority sprites take click priority isOver low-priority sprites when they are stacked on-top of each other.
+    * @param {boolean} [useHandCursor=false] - If true the Sprite will show the hand cursor on mouse-isOver (doesn't apply to mobile browsers)
     * @return {Phaser.Sprite} The Sprite object to which the Input Handler is bound.
     */
     start: function (priority, useHandCursor) {
@@ -41441,7 +41441,7 @@ Phaser.InputHandler.prototype = {
 
     /**
     * The x coordinate of the Input pointer, relative to the top-left of the parent Sprite.
-    * This value is only set when the pointer is over this Sprite.
+    * This value is only set when the pointer is isOver this Sprite.
     *
     * @method Phaser.InputHandler#pointerX
     * @param {integer} [pointerId=0]
@@ -41457,7 +41457,7 @@ Phaser.InputHandler.prototype = {
 
     /**
     * The y coordinate of the Input pointer, relative to the top-left of the parent Sprite
-    * This value is only set when the pointer is over this Sprite.
+    * This value is only set when the pointer is isOver this Sprite.
     *
     * @method Phaser.InputHandler#pointerY
     * @param {integer} [pointerId=0]
@@ -41473,7 +41473,7 @@ Phaser.InputHandler.prototype = {
 
     /**
     * If the Pointer is down this returns true.
-    * This *only* checks if the Pointer is down, not if it's down over any specific Sprite.
+    * This *only* checks if the Pointer is down, not if it's down isOver any specific Sprite.
     *
     * @method Phaser.InputHandler#pointerDown
     * @param {integer} [pointerId=0]
@@ -41489,7 +41489,7 @@ Phaser.InputHandler.prototype = {
 
     /**
     * If the Pointer is up this returns true.
-    * This *only* checks if the Pointer is up, not if it's up over any specific Sprite.
+    * This *only* checks if the Pointer is up, not if it's up isOver any specific Sprite.
     *
     * @method Phaser.InputHandler#pointerUp
     * @param {integer} [pointerId=0]
@@ -41534,11 +41534,11 @@ Phaser.InputHandler.prototype = {
     },
 
     /**
-    * Is the Pointer over this Sprite?
+    * Is the Pointer isOver this Sprite?
     *
     * @method Phaser.InputHandler#pointerOver
     * @param {integer} [pointerId=(check all)] The ID number of a Pointer to check. If you don't provide a number it will check all Pointers.
-    * @return {boolean} - True if the given pointer (if a index was given, or any pointer if not) is over this object.
+    * @return {boolean} - True if the given pointer (if a index was given, or any pointer if not) is isOver this object.
     */
     pointerOver: function (pointerId) {
 
@@ -41643,7 +41643,7 @@ Phaser.InputHandler.prototype = {
     },
 
     /**
-    * Checks if the given pointer is both down and over the Sprite this InputHandler belongs to.
+    * Checks if the given pointer is both down and isOver the Sprite this InputHandler belongs to.
     * Use the `fastTest` flag is to quickly check just the bounding hit area even if `InputHandler.pixelPerfectOver` is `true`.
     *
     * @method Phaser.InputHandler#checkPointerDown
@@ -41688,7 +41688,7 @@ Phaser.InputHandler.prototype = {
     },
 
     /**
-    * Checks if the given pointer is over the Sprite this InputHandler belongs to.
+    * Checks if the given pointer is isOver the Sprite this InputHandler belongs to.
     * Use the `fastTest` flag is to quickly check just the bounding hit area even if `InputHandler.pixelPerfectOver` is `true`.
     *
     * @method Phaser.InputHandler#checkPointerOver
@@ -41858,7 +41858,7 @@ Phaser.InputHandler.prototype = {
     },
 
     /**
-    * Internal method handling the pointer over event.
+    * Internal method handling the pointer isOver event.
     *
     * @method Phaser.InputHandler#_pointerOverHandler
     * @private
@@ -42064,7 +42064,7 @@ Phaser.InputHandler.prototype = {
 
         var data = this._pointerData[pointer.id];
 
-        //  If was previously touched by this Pointer, check if still is AND still over this item
+        //  If was previously touched by this Pointer, check if still is AND still isOver this item
         if (data.isDown && pointer.isUp)
         {
             data.isDown = false;
@@ -42072,7 +42072,7 @@ Phaser.InputHandler.prototype = {
             data.timeUp = this.game.time.time;
             data.downDuration = data.timeUp - data.timeDown;
 
-            //  Only release the InputUp signal if the pointer is still over this sprite
+            //  Only release the InputUp signal if the pointer is still isOver this sprite
             var isOver = this.checkPointerOver(pointer);
 
             if (this.sprite && this.sprite.events)
@@ -42222,7 +42222,7 @@ Phaser.InputHandler.prototype = {
     *
     * @method Phaser.InputHandler#justOver
     * @param {integer} [pointerId=0]
-    * @param {number} delay - The time below which the pointer is considered as just over.
+    * @param {number} delay - The time below which the pointer is considered as just isOver.
     * @return {boolean}
     */
     justOver: function (pointerId, delay) {
@@ -42256,7 +42256,7 @@ Phaser.InputHandler.prototype = {
     *
     * @method Phaser.InputHandler#justPressed
     * @param {integer} [pointerId=0]
-    * @param {number} delay - The time below which the pointer is considered as just over.
+    * @param {number} delay - The time below which the pointer is considered as just isOver.
     * @return {boolean}
     */
     justPressed: function (pointerId, delay) {
@@ -42286,11 +42286,11 @@ Phaser.InputHandler.prototype = {
     },
 
     /**
-    * If the pointer is currently over this Sprite this returns how long it has been there for in milliseconds.
+    * If the pointer is currently isOver this Sprite this returns how long it has been there for in milliseconds.
     *
     * @method Phaser.InputHandler#overDuration
     * @param {integer} [pointerId=0]
-    * @return {number} The number of milliseconds the pointer has been over the Sprite, or -1 if not over.
+    * @return {number} The number of milliseconds the pointer has been isOver the Sprite, or -1 if not isOver.
     */
     overDuration: function (pointerId) {
 
@@ -42306,11 +42306,11 @@ Phaser.InputHandler.prototype = {
     },
 
     /**
-    * If the pointer is currently over this Sprite this returns how long it has been there for in milliseconds.
+    * If the pointer is currently isOver this Sprite this returns how long it has been there for in milliseconds.
     *
     * @method Phaser.InputHandler#downDuration
     * @param {integer} [pointerId=0]
-    * @return {number} The number of milliseconds the pointer has been pressed down on the Sprite, or -1 if not over.
+    * @return {number} The number of milliseconds the pointer has been pressed down on the Sprite, or -1 if not isOver.
     */
     downDuration: function (pointerId) {
 
@@ -42332,7 +42332,7 @@ Phaser.InputHandler.prototype = {
     *
     * When the drag completes by way of the user letting go of the pointer that was dragging the sprite, the Sprite.events.onDragStop event is dispatched.
     *
-    * You can act the thresholds over when a drag starts via the properties:
+    * You can act the thresholds isOver when a drag starts via the properties:
     *
     * `Pointer.dragDistanceThreshold` the distance, in pixels, that the pointer has to move
     * before the drag will start.
@@ -43958,7 +43958,7 @@ Phaser.SinglePad.prototype.constructor = Phaser.SinglePad;
 */
 
 /**
-* If you need more fine-grained act over the handling of specific keys you can create and use Phaser.Key objects.
+* If you need more fine-grained act isOver the handling of specific keys you can create and use Phaser.Key objects.
 *
 * @class Phaser.Key
 * @constructor
@@ -44517,7 +44517,7 @@ Phaser.Keyboard.prototype = {
     },
 
     /**
-    * If you need more fine-grained act over a Key you can create a new Phaser.Key object via this method.
+    * If you need more fine-grained act isOver a Key you can create a new Phaser.Key object via this method.
     * The Key object can then be polled, have events attached to it, etc.
     *
     * @method Phaser.Keyboard#addKey
@@ -45792,7 +45792,7 @@ Phaser.Component.BringToTop = function () {};
 
 /**
 * Brings this Game Object to the top of its parents display list.
-* Visually this means it will render over the top of any old child in the same Group.
+* Visually this means it will render isOver the top of any old child in the same Group.
 * 
 * If this Game Object hasn't been added to a custom Group then this method will bring it to the top of the Game World, 
 * because the World is the root Group from which all Game Objects descend.
@@ -46802,7 +46802,7 @@ Phaser.Events.prototype = {
 
     /**
     * This signal is dispatched if the Game Object has {@link Phaser.Component.InputEnabled#inputEnabled inputEnabled} set to `true`,
-    * and receives an over event from a {@link Phaser.Pointer}.
+    * and receives an isOver event from a {@link Phaser.Pointer}.
     * It is sent two arguments:
     *
     * - {any} The Game Object that received the event.
@@ -46814,7 +46814,7 @@ Phaser.Events.prototype = {
 
     /**
     * This signal is dispatched if the Game Object has {@link Phaser.Component.InputEnabled#inputEnabled inputEnabled} set to `true`,
-    * and receives an out event from a {@link Phaser.Pointer}, which was previously over it.
+    * and receives an out event from a {@link Phaser.Pointer}, which was previously isOver it.
     * It is sent two arguments:
     *
     * - {any} The Game Object that received the event.
@@ -46845,7 +46845,7 @@ Phaser.Events.prototype = {
     *
     * - {any} The Game Object that received the event.
     * - {Phaser.Pointer} The Phaser.Pointer object that caused the event.
-    * - {boolean} isOver - Is the Pointer still over the Game Object?
+    * - {boolean} isOver - Is the Pointer still isOver the Game Object?
     *
     * @property {Phaser.Signal} onInputUp
     */
@@ -48686,7 +48686,7 @@ Phaser.GameObjectFactory.prototype = {
     * @param {string} [key] - The image key as defined in the Game.Cache to use as the texture for this button.
     * @param {function} [callback] - The function to call when this button is pressed
     * @param {object} [callbackContext] - The context in which the callback will be called (usually 'this')
-    * @param {string|number} [overFrame] - This is the frame or frameName that will be set when this button is in an over state. Give either a number to use a frame ID or a string for a frame name.
+    * @param {string|number} [overFrame] - This is the frame or frameName that will be set when this button is in an isOver state. Give either a number to use a frame ID or a string for a frame name.
     * @param {string|number} [outFrame] - This is the frame or frameName that will be set when this button is in an out state. Give either a number to use a frame ID or a string for a frame name.
     * @param {string|number} [downFrame] - This is the frame or frameName that will be set when this button is in a down state. Give either a number to use a frame ID or a string for a frame name.
     * @param {string|number} [upFrame] - This is the frame or frameName that will be set when this button is in an up state. Give either a number to use a frame ID or a string for a frame name.
@@ -49157,7 +49157,7 @@ Phaser.GameObjectCreator.prototype = {
     * @param {string} [key] The image key as defined in the Game.Cache to use as the texture for this button.
     * @param {function} [callback] The function to call when this button is pressed
     * @param {object} [callbackContext] The context in which the callback will be called (usually 'this')
-    * @param {string|number} [overFrame] This is the frame or frameName that will be set when this button is in an over state. Give either a number to use a frame ID or a string for a frame name.
+    * @param {string|number} [overFrame] This is the frame or frameName that will be set when this button is in an isOver state. Give either a number to use a frame ID or a string for a frame name.
     * @param {string|number} [outFrame] This is the frame or frameName that will be set when this button is in an out state. Give either a number to use a frame ID or a string for a frame name.
     * @param {string|number} [downFrame] This is the frame or frameName that will be set when this button is in a down state. Give either a number to use a frame ID or a string for a frame name.
     * @param {string|number} [upFrame] This is the frame or frameName that will be set when this button is in an up state. Give either a number to use a frame ID or a string for a frame name.
@@ -49589,8 +49589,8 @@ Phaser.Image.prototype.preUpdate = function() {
 *
 * The four states a Button responds to are:
 *
-* * 'Over' - when the Pointer moves over the Button. This is also commonly known as 'hover'.
-* * 'Out' - when the Pointer that was previously over the Button moves out of it.
+* * 'Over' - when the Pointer moves isOver the Button. This is also commonly known as 'hover'.
+* * 'Out' - when the Pointer that was previously isOver the Button moves out of it.
 * * 'Down' - when the Pointer is pressed down on the Button. I.e. touched on a touch enabled device or clicked with the mouse.
 * * 'Up' - when the Pointer that was pressed down on the Button is released again.
 *
@@ -49753,7 +49753,7 @@ Phaser.Button = function (game, x, y, key, callback, callbackContext, overFrame,
     this.onOverMouseOnly = true;
 
     /**
-    * Suppress the over event if a pointer was just released and it matches the given {@link Phaser.PointerModer pointer mode bitmask}.
+    * Suppress the isOver event if a pointer was just released and it matches the given {@link Phaser.PointerModer pointer mode bitmask}.
     *
     * This behavior was introduced in Phaser 2.3.1; this property is a soft-revert of the change.
     *
@@ -49762,7 +49762,7 @@ Phaser.Button = function (game, x, y, key, callback, callbackContext, overFrame,
     this.justReleasedPreventsOver = Phaser.PointerMode.CONTACT;
 
     /**
-    * When true the the texture frame will not be automatically switched on up/down/over/out events.
+    * When true the the texture frame will not be automatically switched on up/down/isOver/out events.
     * @property {boolean} freezeFrames
     * @default
     */
@@ -49986,7 +49986,7 @@ Phaser.Button.prototype.setSounds = function (overSound, overMarker, downSound, 
 };
 
 /**
-* The Sound to be played when a Pointer moves over this Button.
+* The Sound to be played when a Pointer moves isOver this Button.
 *
 * @method Phaser.Button#setOverSound
 * @public
@@ -50054,7 +50054,7 @@ Phaser.Button.prototype.onInputOverHandler = function (sprite, pointer) {
     if (pointer.justReleased() &&
         (this.justReleasedPreventsOver & pointer.pointerMode) === pointer.pointerMode)
     {
-        //  If the Pointer was only just released then we don't fire an over event
+        //  If the Pointer was only just released then we don't fire an isOver event
         return;
     }
 
@@ -50168,7 +50168,7 @@ Phaser.Button.prototype.onInputUpHandler = function (sprite, pointer, isOver) {
 
 /**
 * The SpriteBatch class is a really fast version of the DisplayObjectContainer built purely for speed, so use when you need a lot of sprites or particles.
-* It's worth mentioning that by default sprite batches are used through-out the renderer, so you only really need to use a SpriteBatch if you have over
+* It's worth mentioning that by default sprite batches are used through-out the renderer, so you only really need to use a SpriteBatch if you have isOver
 * 1000 sprites that all share the same texture (or texture atlas). It's also useful if running in Canvas mode and you have a lot of un-rotated or un-scaled
 * Sprites as it skips all of the Canvas setTransform calls, which helps performance, especially on mobile devices.
 *
@@ -51153,7 +51153,7 @@ Phaser.BitmapData.prototype = {
     * @param {number} g2 - The green color value that is the replacement color. Between 0 and 255.
     * @param {number} b2 - The blue color value that is the replacement color. Between 0 and 255.
     * @param {number} a2 - The alpha color value that is the replacement color. Between 0 and 255.
-    * @param {Phaser.Rectangle} [region] - The area to perform the search over. If not given it will replace over the whole BitmapData.
+    * @param {Phaser.Rectangle} [region] - The area to perform the search isOver. If not given it will replace isOver the whole BitmapData.
     * @return {Phaser.BitmapData} This BitmapData object for method chaining.
     */
     replaceRGB: function (r1, g1, b1, a1, r2, g2, b2, a2, region) {
@@ -51197,7 +51197,7 @@ Phaser.BitmapData.prototype = {
     * @param {number} [h=null] - The hue, in the range 0 - 1.
     * @param {number} [s=null] - The saturation, in the range 0 - 1.
     * @param {number} [l=null] - The lightness, in the range 0 - 1.
-    * @param {Phaser.Rectangle} [region] - The area to perform the operation on. If not given it will run over the whole BitmapData.
+    * @param {Phaser.Rectangle} [region] - The area to perform the operation on. If not given it will run isOver the whole BitmapData.
     * @return {Phaser.BitmapData} This BitmapData object for method chaining.
     */
     setHSL: function (h, s, l, region) {
@@ -51260,7 +51260,7 @@ Phaser.BitmapData.prototype = {
     * @param {number} [h=null] - The amount to shift the hue by. Within [-1, 1].
     * @param {number} [s=null] - The amount to shift the saturation by. Within [-1, 1].
     * @param {number} [l=null] - The amount to shift the lightness by. Within [-1, 1].
-    * @param {Phaser.Rectangle} [region] - The area to perform the operation on. If not given it will run over the whole BitmapData.
+    * @param {Phaser.Rectangle} [region] - The area to perform the operation on. If not given it will run isOver the whole BitmapData.
     * @return {Phaser.BitmapData} This BitmapData object for method chaining.
     */
     shiftHSL: function (h, s, l, region) {
@@ -51639,7 +51639,7 @@ Phaser.BitmapData.prototype = {
 
         if (source instanceof Phaser.Sprite || source instanceof Phaser.Image || source instanceof Phaser.Text || source instanceof PIXI.Sprite)
         {
-            //  Copy over sprite values
+            //  Copy isOver sprite values
             this._pos.set(source.texture.crop.x, source.texture.crop.y);
             this._size.set(source.texture.crop.width, source.texture.crop.height);
             this._scale.set(source.scale.x, source.scale.y);
@@ -52475,27 +52475,27 @@ Phaser.BitmapData.prototype = {
     },
 
     /**
-    * Resets the blend mode (effectively sets it to 'source-over')
+    * Resets the blend mode (effectively sets it to 'source-isOver')
     *
     * @method Phaser.BitmapData#blendReset
     * @return {Phaser.BitmapData} This BitmapData object for method chaining.
     */
     blendReset: function () {
 
-        this.op = 'source-over';
+        this.op = 'source-isOver';
         return this;
 
     },
 
     /**
-    * Sets the blend mode to 'source-over'
+    * Sets the blend mode to 'source-isOver'
     *
     * @method Phaser.BitmapData#blendSourceOver
     * @return {Phaser.BitmapData} This BitmapData object for method chaining.
     */
     blendSourceOver: function () {
 
-        this.op = 'source-over';
+        this.op = 'source-isOver';
         return this;
 
     },
@@ -52540,14 +52540,14 @@ Phaser.BitmapData.prototype = {
     },
 
     /**
-    * Sets the blend mode to 'destination-over'
+    * Sets the blend mode to 'destination-isOver'
     *
     * @method Phaser.BitmapData#blendDestinationOver
     * @return {Phaser.BitmapData} This BitmapData object for method chaining.
     */
     blendDestinationOver: function () {
 
-        this.op = 'destination-over';
+        this.op = 'destination-isOver';
         return this;
 
     },
@@ -56604,7 +56604,7 @@ Phaser.RenderTexture.prototype.renderRawXY = function (displayObject, x, y, clea
 * This function will draw the display object to the RenderTexture.
 *
 * In versions of Phaser prior to 2.4.0 the second parameter was a Phaser.Point object. 
-* This is now a Matrix allowing you much more act over how the Display Object is rendered.
+* This is now a Matrix allowing you much more act isOver how the Display Object is rendered.
 * If you need to replicate the earlier behavior please use Phaser.RenderTexture.renderXY instead.
 *
 * If you wish for the displayObject to be rendered taking its current scale, rotation and translation into account then either
@@ -63157,7 +63157,7 @@ Phaser.Device._initialize = function () {
         // TODO: replace canvasBitBltShift detection with actual feature check
 
         // Excludes iOS versions as they generally wrap UIWebView (eg. Safari WebKit) and it
-        // is safer to not try and use the fast copy-over method.
+        // is safer to not try and use the fast copy-isOver method.
         if (!device.iOS && (device.ie || device.firefox || device.chrome))
         {
             device.canvasBitBltShift = true;
@@ -64854,7 +64854,7 @@ Phaser.Math = {
     },
 
     /**
-    * Adds the given amount to the value, but never lets the value go over the specified maximum.
+    * Adds the given amount to the value, but never lets the value go isOver the specified maximum.
     *
     * @method Phaser.Math#maxAdd
     * @param {number} value - The value to add the amount to.
@@ -65194,7 +65194,7 @@ Phaser.Math = {
     },
 
     /**
-    * Calculates a linear (interpolation) value over t.
+    * Calculates a linear (interpolation) value isOver t.
     *
     * @method Phaser.Math#linear
     * @param {number} p0
@@ -66810,7 +66810,7 @@ Phaser.TweenManager.prototype.constructor = Phaser.TweenManager;
 */
 
 /**
-* A Tween allows you to alter one or more properties of a target object over a defined period of time.
+* A Tween allows you to alter one or more properties of a target object isOver a defined period of time.
 * This can be used for things such as alpha fading Sprites, scaling them or motion.
 * Use `Tween.to` or `Tween.from` to set-up the tween values. You can create multiple tweens on the same object
 * by calling Tween.to multiple times on the same Tween. Additional tweens specified in this way become "child" tweens and
@@ -67028,7 +67028,7 @@ Phaser.Tween.prototype = {
     * @method Phaser.Tween#to
     * @param {object} properties - An object containing the properties you want to tween, such as `Sprite.x` or `Sound.volume`. Given as a JavaScript object.
     * @param {number} [duration=1000] - Duration of this tween in ms. Or if `Tween.frameBased` is true this represents the number of frames that should elapse.
-    * @param {function|string} [ease=null] - Easing function. If not set it will default to Phaser.Easing.Default, which is Phaser.Easing.Linear.None by default but can be over-ridden.
+    * @param {function|string} [ease=null] - Easing function. If not set it will default to Phaser.Easing.Default, which is Phaser.Easing.Linear.None by default but can be isOver-ridden.
     * @param {boolean} [autoStart=false] - Set to `true` to allow this tween to start automatically. Otherwise call Tween.start().
     * @param {number} [delay=0] - Delay before this tween will start in milliseconds. Defaults to 0, no delay.
     * @param {number} [repeat=0] - Should the tween automatically restart once complete? If you want it to run forever set as -1. This only effects this individual tween, not any chained tweens.
@@ -67075,7 +67075,7 @@ Phaser.Tween.prototype = {
     * @method Phaser.Tween#from
     * @param {object} properties - An object containing the properties you want to tween., such as `Sprite.x` or `Sound.volume`. Given as a JavaScript object.
     * @param {number} [duration=1000] - Duration of this tween in ms. Or if `Tween.frameBased` is true this represents the number of frames that should elapse.
-    * @param {function|string} [ease=null] - Easing function. If not set it will default to Phaser.Easing.Default, which is Phaser.Easing.Linear.None by default but can be over-ridden.
+    * @param {function|string} [ease=null] - Easing function. If not set it will default to Phaser.Easing.Default, which is Phaser.Easing.Linear.None by default but can be isOver-ridden.
     * @param {boolean} [autoStart=false] - Set to `true` to allow this tween to start automatically. Otherwise call Tween.start().
     * @param {number} [delay=0] - Delay before this tween will start in milliseconds. Defaults to 0, no delay.
     * @param {number} [repeat=0] - Should the tween automatically restart once complete? If you want it to run forever set as -1. This only effects this individual tween, not any chained tweens.
@@ -67953,7 +67953,7 @@ Phaser.TweenData.prototype = {
     * @method Phaser.TweenData#to
     * @param {object} properties - The properties you want to tween, such as `Sprite.x` or `Sound.volume`. Given as a JavaScript object.
     * @param {number} [duration=1000] - Duration of this tween in ms.
-    * @param {function} [ease=null] - Easing function. If not set it will default to Phaser.Easing.Default, which is Phaser.Easing.Linear.None by default but can be over-ridden at will.
+    * @param {function} [ease=null] - Easing function. If not set it will default to Phaser.Easing.Default, which is Phaser.Easing.Linear.None by default but can be isOver-ridden at will.
     * @param {number} [delay=0] - Delay before this tween will start, defaults to 0 (no delay). Value given is in ms.
     * @param {number} [repeat=0] - Should the tween automatically restart once complete? If you want it to run forever set as -1. This ignores any chained tweens.
     * @param {boolean} [yoyo=false] - A tween that yoyos will reverse itself and play backwards automatically. A yoyo'd tween doesn't fire the Tween.onComplete event, so listen for Tween.onLoop instead.
@@ -67981,7 +67981,7 @@ Phaser.TweenData.prototype = {
     * @method Phaser.TweenData#from
     * @param {object} properties - The properties you want to tween, such as `Sprite.x` or `Sound.volume`. Given as a JavaScript object.
     * @param {number} [duration=1000] - Duration of this tween in ms.
-    * @param {function} [ease=null] - Easing function. If not set it will default to Phaser.Easing.Default, which is Phaser.Easing.Linear.None by default but can be over-ridden at will.
+    * @param {function} [ease=null] - Easing function. If not set it will default to Phaser.Easing.Default, which is Phaser.Easing.Linear.None by default but can be isOver-ridden at will.
     * @param {number} [delay=0] - Delay before this tween will start, defaults to 0 (no delay). Value given is in ms.
     * @param {number} [repeat=0] - Should the tween automatically restart once complete? If you want it to run forever set as -1. This ignores any chained tweens.
     * @param {boolean} [yoyo=false] - A tween that yoyos will reverse itself and play backwards automatically. A yoyo'd tween doesn't fire the Tween.onComplete event, so listen for Tween.onLoop instead.
@@ -69227,7 +69227,7 @@ Phaser.Time = function (game) {
     this._started = 0;
 
     /**
-    * @property {number} _timeLastSecond - The time (in ms) that the last second counter ticked over.
+    * @property {number} _timeLastSecond - The time (in ms) that the last second counter ticked isOver.
     * @private
     */
     this._timeLastSecond = 0;
@@ -74652,7 +74652,7 @@ Phaser.Cache.prototype = {
     * Removes a sound from the cache.
     *
     * If any `Phaser.Sound` objects use the audio file in the cache that you remove with this method, they will
-    * _automatically_ destroy themselves. If you wish to have full act over when Sounds are destroyed then
+    * _automatically_ destroy themselves. If you wish to have full act isOver when Sounds are destroyed then
     * you must finish your house-keeping and destroy them all yourself first, before calling this method.
     *
     * Note that this only removes it from the Phaser.Cache. If you still have references to the data elsewhere
@@ -77099,7 +77099,7 @@ Phaser.Loader.prototype = {
 
         this.updateProgress();
 
-        // True when all items in the queue have been advanced over
+        // True when all items in the queue have been advanced isOver
         // (There should be no inflight items as they are complete - loaded/error.)
         if (this._processingHead >= this._fileList.length)
         {
@@ -79870,13 +79870,13 @@ Phaser.Sound.prototype = {
 
     /**
     * Starts this sound playing (or restarts it if already doing so) and sets the volume to zero.
-    * Then increases the volume from 0 to 1 over the duration specified.
+    * Then increases the volume from 0 to 1 isOver the duration specified.
     *
     * At the end of the fade Sound.onFadeComplete is dispatched with this Sound object as the first parameter,
     * and the final volume (1) as the second parameter.
     *
     * @method Phaser.Sound#fadeIn
-    * @param {number} [duration=1000] - The time in milliseconds over which the Sound should fade in.
+    * @param {number} [duration=1000] - The time in milliseconds isOver which the Sound should fade in.
     * @param {boolean} [loop=false] - Should the Sound be set to loop? Note that this doesn't cause the fade to repeat.
     * @param {string} [marker=(current marker)] - The marker to start at; defaults to the current (last played) marker. To start playing from the beginning specify specify a marker of `''`.
     */
@@ -79897,12 +79897,12 @@ Phaser.Sound.prototype = {
     },
 
     /**
-    * Decreases the volume of this Sound from its current value to 0 over the duration specified.
+    * Decreases the volume of this Sound from its current value to 0 isOver the duration specified.
     * At the end of the fade Sound.onFadeComplete is dispatched with this Sound object as the first parameter,
     * and the final volume (0) as the second parameter.
     *
     * @method Phaser.Sound#fadeOut
-    * @param {number} [duration=1000] - The time in milliseconds over which the Sound should fade out.
+    * @param {number} [duration=1000] - The time in milliseconds isOver which the Sound should fade out.
     */
     fadeOut: function (duration) {
 
@@ -79911,7 +79911,7 @@ Phaser.Sound.prototype = {
     },
 
     /**
-    * Fades the volume of this Sound from its current value to the given volume over the duration specified.
+    * Fades the volume of this Sound from its current value to the given volume isOver the duration specified.
     * At the end of the fade Sound.onFadeComplete is dispatched with this Sound object as the first parameter,
     * and the final volume (volume) as the second parameter.
     *
@@ -81603,7 +81603,7 @@ Phaser.ScaleManager = function (game, width, height) {
 
     /**
     * Size checks updates are delayed according to the throttle.
-    * The throttle increases to `trackParentInterval` over time and is used to more
+    * The throttle increases to `trackParentInterval` isOver time and is used to more
     * rapidly detect changes in certain browsers (eg. IE) while providing back-off safety.
     * @property {integer} _updateThrottle
     * @private
@@ -83126,7 +83126,7 @@ Phaser.ScaleManager.prototype = {
     * Takes a Sprite or Image object and scales it to fit the given dimensions.
     * Scaling happens proportionally without distortion to the sprites texture.
     * The letterBox parameter controls if scaling will produce a letter-box effect or zoom the
-    * sprite until it fills the given values. Note that with letterBox set to false the scaled sprite may spill out over either
+    * sprite until it fills the given values. Note that with letterBox set to false the scaled sprite may spill out isOver either
     * the horizontal or vertical sides of the target dimensions. If you wish to stop this you can crop the Sprite.
     *
     * @method Phaser.ScaleManager#scaleSprite
@@ -83794,7 +83794,7 @@ Phaser.Utils.Debug.prototype = {
     },
 
     /**
-    * Internal method that outputs a single line of text split over as many columns as needed, one per parameter.
+    * Internal method that outputs a single line of text split isOver as many columns as needed, one per parameter.
     *
     * @method Phaser.Utils.Debug#line
     * @protected
@@ -84033,9 +84033,9 @@ Phaser.Utils.Debug.prototype = {
         this.start(x, y, color);
         this.line('Sprite Input: (' + sprite.width + ' x ' + sprite.height + ')');
         this.line('x: ' + sprite.input.pointerX().toFixed(1) + ' y: ' + sprite.input.pointerY().toFixed(1));
-        this.line('over: ' + sprite.input.pointerOver() + ' duration: ' + sprite.input.overDuration().toFixed(0));
+        this.line('isOver: ' + sprite.input.pointerOver() + ' duration: ' + sprite.input.overDuration().toFixed(0));
         this.line('down: ' + sprite.input.pointerDown() + ' duration: ' + sprite.input.downDuration().toFixed(0));
-        this.line('just over: ' + sprite.input.justOver() + ' just out: ' + sprite.input.justOut());
+        this.line('just isOver: ' + sprite.input.justOver() + ' just out: ' + sprite.input.justOut());
         this.stop();
 
     },
@@ -87556,7 +87556,7 @@ Phaser.Color = {
     * @static
     * @param {number} color1 - The first color value.
     * @param {number} color2 - The second color value.
-    * @param {number} steps - The number of steps to run the interpolation over.
+    * @param {number} steps - The number of steps to run the interpolation isOver.
     * @param {number} currentStep - The currentStep value. If the interpolation will take 100 steps, a currentStep value of 50 would be half-way between the two.
     * @param {number} [alpha] - The alpha of the returned color.
     * @param {number} [colorSpace=0] - The color space to interpolate in. 0 = RGB, 1 = HSV.
@@ -87626,7 +87626,7 @@ Phaser.Color = {
     * @param {number} r - The red color value, between 0 and 0xFF (255).
     * @param {number} g - The green color value, between 0 and 0xFF (255).
     * @param {number} b - The blue color value, between 0 and 0xFF (255).
-    * @param {number} steps - The number of steps to run the interpolation over.
+    * @param {number} steps - The number of steps to run the interpolation isOver.
     * @param {number} currentStep - The currentStep value. If the interpolation will take 100 steps, a currentStep value of 50 would be half-way between the two.
     * @returns {number} The interpolated color value.
     */
@@ -87651,7 +87651,7 @@ Phaser.Color = {
     * @param {number} r2 - The red color value, between 0 and 0xFF (255).
     * @param {number} g2 - The green color value, between 0 and 0xFF (255).
     * @param {number} b2 - The blue color value, between 0 and 0xFF (255).
-    * @param {number} steps - The number of steps to run the interpolation over.
+    * @param {number} steps - The number of steps to run the interpolation isOver.
     * @param {number} currentStep - The currentStep value. If the interpolation will take 100 steps, a currentStep value of 50 would be half-way between the two.
     * @returns {number} The interpolated color value.
     */
@@ -87667,7 +87667,7 @@ Phaser.Color = {
 
 
     /**
-    * Calculates a linear (interpolation) value of two colors over t.
+    * Calculates a linear (interpolation) value of two colors isOver t.
     *
     * This is a slightly simpler interface to {@link Phaser.Color.interpolateColor}.
     *
@@ -87686,7 +87686,7 @@ Phaser.Color = {
     },
 
     /**
-    * Calculates a linear (interpolation) value of an array of colors over t.
+    * Calculates a linear (interpolation) value of an array of colors isOver t.
     *
     * The arguments are similar to {@link Phaser.Math.linearInterpolation}.
     *
@@ -88244,7 +88244,7 @@ Phaser.Color = {
 * 
 * Game Objects (such as Sprites) can only belong to 1 physics system, but you can have multiple systems active in a single game.
 *
-* For example you could have P2 managing a polygon-built terrain landscape that an vehicle drives over, while it could be firing bullets that use the
+* For example you could have P2 managing a polygon-built terrain landscape that an vehicle drives isOver, while it could be firing bullets that use the
 * faster (due to being much simpler) Arcade Physics system.
 *
 * @class Phaser.Physics
@@ -88451,7 +88451,7 @@ Phaser.Physics.prototype = {
     * Phaser.Physics.MATTER - A full-body and light-weight advanced physics system (still in development)
     * Phaser.Physics.CHIPMUNK is still in development.
     *
-    * If you require more act over what type of body is created, for example to create a Ninja Physics Circle instead of the default AABB, then see the
+    * If you require more act isOver what type of body is created, for example to create a Ninja Physics Circle instead of the default AABB, then see the
     * individual physics systems `enable` methods instead of using this generic one.
     *
     * @method Phaser.Physics#enable
@@ -90401,7 +90401,7 @@ Phaser.Physics.Arcade.prototype = {
 
     /**
     * Move the given display object towards the pointer at a steady velocity. If no pointer is given it will use Phaser.Input.activePointer.
-    * If you specify a maxTime then it will adjust the speed (over-writing what you set) so it arrives at the destination in that number of seconds.
+    * If you specify a maxTime then it will adjust the speed (isOver-writing what you set) so it arrives at the destination in that number of seconds.
     * Timings are approximate due to the way browser timers work. Allow for a variance of +- 50ms.
     * Note: The display object does not continuously track the target. If the target changes location during transit the display object will not modify its course.
     * Note: The display object doesn't stop moving once it reaches the destination coordinates.
@@ -90435,7 +90435,7 @@ Phaser.Physics.Arcade.prototype = {
 
     /**
     * Move the given display object towards the x/y coordinates at a steady velocity.
-    * If you specify a maxTime then it will adjust the speed (over-writing what you set) so it arrives at the destination in that number of seconds.
+    * If you specify a maxTime then it will adjust the speed (isOver-writing what you set) so it arrives at the destination in that number of seconds.
     * Timings are approximate due to the way browser timers work. Allow for a variance of +- 50ms.
     * Note: The display object does not continuously track the target. If the target changes location during transit the display object will not modify its course.
     * Note: The display object doesn't stop moving once it reaches the destination coordinates.
@@ -91298,7 +91298,7 @@ Phaser.Physics.Arcade.Body = function (sprite) {
     this.blocked = { none: true, up: false, down: false, left: false, right: false };
 
     /**
-    * If this is an especially small or fast moving object then it can sometimes skip over tilemap collisions if it moves through a tile in a step.
+    * If this is an especially small or fast moving object then it can sometimes skip isOver tilemap collisions if it moves through a tile in a step.
     * Set this padding value to add extra padding to its bounds. tilePadding.x applied to its width, y to its height.
     * @property {Phaser.Point} tilePadding - Extra padding to be added to this sprite's dimensions when checking for tile collision.
     */
@@ -92548,7 +92548,7 @@ Phaser.Physics.Arcade.TilemapCollision.prototype = {
 
         //  They overlap. Any custom callbacks?
 
-        //  A local callback always takes priority over a layer level callback
+        //  A local callback always takes priority isOver a layer level callback
         if (tile.collisionCallback && !tile.collisionCallback.call(tile.collisionCallbackContext, body.sprite, tile))
         {
             //  If it returns true then we can carry on, otherwise we should abort.
@@ -94614,7 +94614,7 @@ Phaser.Physics.P2.prototype = {
     /**
     * Convert p2 physics value (meters) to pixel scale.
     * By default Phaser uses a scale of 20px per meter.
-    * If you need to modify this you can over-ride these functions via the Physics Configuration object.
+    * If you need to modify this you can isOver-ride these functions via the Physics Configuration object.
     *
     * @method Phaser.Physics.P2#mpx
     * @param {number} v - The value to convert.
@@ -94629,7 +94629,7 @@ Phaser.Physics.P2.prototype = {
     /**
     * Convert pixel value to p2 physics scale (meters).
     * By default Phaser uses a scale of 20px per meter.
-    * If you need to modify this you can over-ride these functions via the Physics Configuration object.
+    * If you need to modify this you can isOver-ride these functions via the Physics Configuration object.
     *
     * @method Phaser.Physics.P2#pxm
     * @param {number} v - The value to convert.
@@ -94644,7 +94644,7 @@ Phaser.Physics.P2.prototype = {
     /**
     * Convert p2 physics value (meters) to pixel scale and inverses it.
     * By default Phaser uses a scale of 20px per meter.
-    * If you need to modify this you can over-ride these functions via the Physics Configuration object.
+    * If you need to modify this you can isOver-ride these functions via the Physics Configuration object.
     *
     * @method Phaser.Physics.P2#mpxi
     * @param {number} v - The value to convert.
@@ -94659,7 +94659,7 @@ Phaser.Physics.P2.prototype = {
     /**
     * Convert pixel value to p2 physics scale (meters) and inverses it.
     * By default Phaser uses a scale of 20px per meter.
-    * If you need to modify this you can over-ride these functions via the Physics Configuration object.
+    * If you need to modify this you can isOver-ride these functions via the Physics Configuration object.
     *
     * @method Phaser.Physics.P2#pxmi
     * @param {number} v - The value to convert.
@@ -100180,7 +100180,7 @@ Phaser.Tilemap.prototype = {
 
     /**
     * Puts a tile of the given index value at the coordinate specified.
-    * If you pass `null` as the tile it will pass your call over to Tilemap.removeTile instead.
+    * If you pass `null` as the tile it will pass your call isOver to Tilemap.removeTile instead.
     *
     * @method Phaser.Tilemap#putTile
     * @param {Phaser.Tile|number|null} tile - The index of this tile to set or a Phaser.Tile object. If null the tile is removed from the map.
@@ -100954,7 +100954,7 @@ Phaser.TilemapLayer = function (game, tilemap, index, width, height) {
     *
     * @property {?string} missingImageFill - A tile is rendered as a rectangle using the following fill if a valid tileset/image cannot be found. A value of `null` prevents additional rendering for tiles without a valid tileset image. _This takes effect even when debug rendering for the layer is not enabled._
     *
-    * @property {?string} debuggedTileOverfill - If a Tile has `Tile#debug` true then, after normal tile image rendering, a rectangle with the following fill is drawn above/over it. _This takes effect even when debug rendering for the layer is not enabled._
+    * @property {?string} debuggedTileOverfill - If a Tile has `Tile#debug` true then, after normal tile image rendering, a rectangle with the following fill is drawn above/isOver it. _This takes effect even when debug rendering for the layer is not enabled._
     *
     * @property {boolean} forceFullRedraw - When debug rendering (`debug` is true), and this option is enabled, the a full redraw is forced and rendering optimization is suppressed.
     *
@@ -101658,7 +101658,7 @@ Phaser.TilemapLayer.prototype.shiftCanvas = function (context, x, y) {
         var copyContext = copyCanvas.getContext('2d');
         copyContext.clearRect(0, 0, copyW, copyH);
         copyContext.drawImage(canvas, dx, dy, copyW, copyH, 0, 0, copyW, copyH);
-        // clear allows default 'source-over' semantics
+        // clear allows default 'source-isOver' semantics
         context.clearRect(sx, sy, copyW, copyH);
         context.drawImage(copyCanvas, 0, 0, copyW, copyH, sx, sy, copyW, copyH);
     }
@@ -103363,7 +103363,7 @@ Phaser.Particle.prototype.update = function() {
 };
 
 /**
-* Called by the Emitter when this particle is emitted. Left empty for you to over-ride as required.
+* Called by the Emitter when this particle is emitted. Left empty for you to isOver-ride as required.
 *
 * @method Phaser.Particle#onEmit
 * @memberof Phaser.Particle
@@ -103372,7 +103372,7 @@ Phaser.Particle.prototype.onEmit = function() {
 };
 
 /**
-* Called by the Emitter if autoAlpha has been enabled. Passes over the alpha ease data and resets the alpha counter.
+* Called by the Emitter if autoAlpha has been enabled. Passes isOver the alpha ease data and resets the alpha counter.
 *
 * @method Phaser.Particle#setAlphaData
 * @memberof Phaser.Particle
@@ -103387,7 +103387,7 @@ Phaser.Particle.prototype.setAlphaData = function(data) {
 };
 
 /**
-* Called by the Emitter if autoScale has been enabled. Passes over the scale ease data and resets the scale counter.
+* Called by the Emitter if autoScale has been enabled. Passes isOver the scale ease data and resets the scale counter.
 *
 * @method Phaser.Particle#setScaleData
 * @memberof Phaser.Particle
@@ -107313,7 +107313,7 @@ Phaser.Video.prototype = {
      * This method will automatically handle a change in video dimensions, but if you try swapping to a different bitrate we've found it
      * cannot render the new video on iOS (desktop browsers cope better).
      *
-     * When the video source is changed the video file is requested over the network. Listen for the `onChangeSource` signal to know
+     * When the video source is changed the video file is requested isOver the network. Listen for the `onChangeSource` signal to know
      * when the new video has downloaded enough content to be able to be played. Previous settings such as the volume and loop state
      * are adopted automatically by the new video.
      *
@@ -107436,7 +107436,7 @@ Phaser.Video.prototype = {
      *
      * You can optionally set if the BitmapData should be cleared or not, the alpha and the blend mode of the draw.
      *
-     * If you need more advanced act over the grabbing them call `Video.snapshot.copy` directly with the same parameters as BitmapData.copy.
+     * If you need more advanced act isOver the grabbing them call `Video.snapshot.copy` directly with the same parameters as BitmapData.copy.
      *
      * @method Phaser.Video#grab
      * @param {boolean} [clear=false] - Should the BitmapData be cleared before the Video is grabbed? Unless you are using alpha or a blend mode you can usually leave this set to false.

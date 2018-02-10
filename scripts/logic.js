@@ -8,7 +8,7 @@ class Logic {
         this.anchorSpeed = this.speed / 2.5;
         this.position = Logic.checkPosition(pos);
         this.anchor = this.position.copy();
-        this.over = false;
+        this.isOver = false;
     }
 
     start() {
@@ -17,9 +17,15 @@ class Logic {
     }
 
     update() {
-        if (!this.over){
+        if (!this.isOver){
+            for (let i = 0; i < this.guns.length; i++){
+                if (this.guns[i].timer-- < 0){
+                    this.guns[i].action();
+                    this.guns.splice(i, 1);
+                }
+            }
             if (this.shouldAddGun())
-                this.addGun();
+                this.guns.push(new Gun());
             this.moveAnchor();
             if (this.shouldMoveTiles()) {
                 this.moveTiles();
@@ -39,7 +45,7 @@ class Logic {
     }
 
     move(vector){
-        if (!this.over) {
+        if (!this.isOver) {
             if (Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1) {
                 this.position.x = Math.min(4, Math.max(0,
                     vector.x * this.speed + this.position.x));
@@ -164,17 +170,16 @@ class Logic {
     }
 
     shouldAddGun(){
-        return false;
+        return (Logic.randomInt(1, 2048 * 2) < this.sum() &&
+                this.guns.length < 4);
     }
 
-    addGun(){
-        let gunsPosition = {
-            1: new Vector(this.position.x, -1),
-            2: new Vector(5, this.position.y),
-            3: new Vector(this.position.x, 5),
-            4: new Vector(-1, this.position.y)
-        };
-        this.guns.push(gunsPosition[Logic.randomInt(1, 4)]);
+    sum(){
+        let sum = 0;
+        for (let y = 0; y < 4; y++)
+            for (let x = 0; x < 4; x++)
+                sum += this.field[y][x];
+        return sum;
     }
 
     placeTile() {
