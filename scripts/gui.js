@@ -51,19 +51,20 @@ class GUI extends Phaser.State {
 
     createRectangle(x, y){
         let size = this.game.width;
-        let canvas = this.game.add.bitmapData(size/6, size/6);
+        let canvas = this.game.add.bitmapData(size/6 + 2, size/6 + 2);
         canvas.ctx.beginPath();
-        canvas.ctx.rect(0, 0, size/6 + 1, size/6 + 1);
+        canvas.ctx.rect(0, 0, size/6 + 2, size/6 + 2);
         if (this.logic.field[y][x] in this.colors)
             canvas.ctx.fillStyle = this.colors[this.logic.field[y][x]];
         else
             canvas.ctx.fillStyle = '#eab914';
         canvas.ctx.strokeStyle = '#ffffff';
-        canvas.ctx.lineWidth = '3';
+        canvas.ctx.lineWidth = '4';
         canvas.ctx.fill();
         canvas.ctx.stroke();
+        let coords = this.toDrawCoords(new Vector(x, y));
         this.field[y][x].rect = this.game.add.sprite(
-            ...this.toDrawCoords(new Vector(x, y)).values(),
+            coords.x - 1, coords.y - 1,
             canvas);
         this.game.physics.enable(this.field[y][x].rect);
     }
@@ -101,7 +102,7 @@ class GUI extends Phaser.State {
     createOutline(){
         let graphics = this.game.add.graphics();
         let size = this.toDrawCoords(new Vector(0, 0));
-        graphics.lineStyle(1, 0xffffff, 1);
+        graphics.lineStyle(2, 0xffffff, 1);
         for (let x = 0; x < 4; x++)
             for (let y = 0; y < 4; y++){
                 let begin = this.toDrawCoords(new Vector(x, y));
@@ -187,9 +188,10 @@ class GUI extends Phaser.State {
         let textLogicCoords = new Vector(
             Math.max(0, Math.min(3, x + vector.x)) + 0.5,
             Math.max(0, Math.min(3, y + vector.y)) + 0.5
-        )
+        );
+        let rectDrawCoords = this.toDrawCoords(rectLogicCoords);
         this.field[y][x].rect.position = new PIXI.Point(
-            ...this.toDrawCoords(rectLogicCoords).values()
+            rectDrawCoords.x - 1, rectDrawCoords.y - 1
         );
         this.field[y][x].text.position = new PIXI.Point(
             ...this.toDrawCoords(textLogicCoords).values()
