@@ -9,6 +9,7 @@ class load extends Phaser.State {
         this.player.height = x / 24;
         this.player.anchor.set(0.5);
 
+        this.load.setPreloadSprite(this.player);
         this.load.onFileComplete.add(this.complete, this);
         this.load.onLoadComplete.add(
             () => this.game.state.start('level'),
