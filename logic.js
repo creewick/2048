@@ -64,6 +64,7 @@ class Logic {
                           vector.normalize()
                                 .mul(this.anchorSpeed)
             );
+        else this.dropAnchor();
     }
 
 //  MOVEMENT

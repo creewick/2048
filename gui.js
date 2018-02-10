@@ -53,9 +53,12 @@ class GUI extends Phaser.State {
         let size = this.game.width;
         let canvas = this.game.add.bitmapData(size/6, size/6);
         canvas.ctx.beginPath();
-        canvas.ctx.rect(0, 0, size/6, size/6);
-        canvas.ctx.fillStyle = this.colors[this.logic.field[y][x]];
-        canvas.ctx.strokeStyle = '#ff0000';
+        canvas.ctx.rect(0, 0, size/6 + 1, size/6 + 1);
+        if (this.logic.field[y][x] in this.colors)
+            canvas.ctx.fillStyle = this.colors[this.logic.field[y][x]];
+        else
+            canvas.ctx.fillStyle = '#eab914';
+        canvas.ctx.strokeStyle = '#ffffff';
         canvas.ctx.lineWidth = '3';
         canvas.ctx.fill();
         canvas.ctx.stroke();
@@ -69,10 +72,13 @@ class GUI extends Phaser.State {
         let size = this.game.width;
         let style = {
             font: `bold ${size / 12}px ClearSans`,
-            fill: '#ff0044',
             boundsAlignH: 'center',
             boundsAlignV: 'middle',
         };
+        if (this.logic.field[y][x] < 8)
+            style.fill = '#776e65';
+        else
+            style.fill = '#f9f6f2';
         this.field[y][x].text = this.game.add.text(
             ...this.toDrawCoords(new Vector(x + 0.5, y + 0.5)).values(),
             this.logic.field[y][x],
