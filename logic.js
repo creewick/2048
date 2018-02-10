@@ -23,17 +23,29 @@ class Logic {
             this.moveAnchor();
             if (this.shouldMoveTiles()) {
                 this.moveTiles();
-                this.placeTile();
+                if (this.anythingMoved())
+                   this.placeTile();
             }
         }
     }
 
+    anythingMoved(){
+        for (let y = 0; y < 4; y++)
+            for (let x = 0; x < 4; x++)
+                if (this.animationField[y][x].x !== x ||
+                    this.animationField[y][x].y !== y)
+                    return true;
+        return false;
+    }
+
     move(vector){
-        if (Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1){
-            this.position.x = Math.min(4, Math.max(0,
-                vector.x * this.speed + this.position.x));
-            this.position.y = Math.min(4, Math.max(0,
-                vector.y * this.speed + this.position.y));
+        if (!this.over) {
+            if (Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1) {
+                this.position.x = Math.min(4, Math.max(0,
+                    vector.x * this.speed + this.position.x));
+                this.position.y = Math.min(4, Math.max(0,
+                    vector.y * this.speed + this.position.y));
+            }
         }
     }
 
@@ -167,11 +179,6 @@ class Logic {
 
     placeTile() {
         let emptyTiles = this.emptyTiles();
-        if (emptyTiles.length === 0)
-        {
-            this.over = 0;
-            return
-        }
         let i = Logic.randomInt(0, emptyTiles.length - 1);
         let emptyCoords = emptyTiles[i];
         if (Logic.randomInt(0, 99) <= 90)
