@@ -170,7 +170,7 @@ class Logic {
     }
 
     shouldAddGun(){
-        return (Logic.randomInt(1, 2048 * 16) < this.max() &&
+        return (Logic.randomInt(1, 1000) < (Math.log(this.max()) / Math.log(2)) &&
                 this.guns.length < 4);
     }
 

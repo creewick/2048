@@ -131,7 +131,6 @@ class GUI extends Phaser.State {
         this.animateGuns();
         if (this.logic.animationField !== null)
             this.animateTiles();
-
         if (this.animationTimeout === 1) {
             this.clearField();
             this.createField();
@@ -145,60 +144,83 @@ class GUI extends Phaser.State {
     }
 
     animateGuns(){
-        //Для каждого из нового массива
-        //Если он не находится в старом - добавить его, воспроизв. звук и анмиацию
-        //Если каждого из старого массива
-        //Если он не находится в сновом - воспроизв. звук и анимацию, удалить
+        this.incomeAnimations();
+        this.shootAnimations();
+    }
 
-        for (var i = 0; i < this.guns.length; i++) {
-            let position = new Vector(this.gunsSpr[i].position.x, this.gunsSpr[i].position.y);
-            if (this.toDrawCoords(this.guns[i].position).sub(position).norm() < 1)
-            {
-                this.gunsSpr[i].body.velocity.x = 0;
-                this.gunsSpr[i].body.velocity.y = 0;
-            }
-        }
-        for (var newI = 0; newI < this.logic.guns.length; newI++)
-            if (this.guns.indexOf(this.logic.guns[newI]) === -1){
-                this.gunSound.play();
-                this.guns.push(this.logic.guns[newI]);
-                this.createGun(this.logic.guns[newI]);
-            }
+    createLight(index){
+        let size = this.game.width;
+        let canvas = null;
+        if (this.guns[index].position.y < 0 || this.guns[index].position.y > 4)
+            canvas = this.game.add.bitmapData(size/6, size);
+        else
+            canvas = this.game.add.bitmapData(size, size/6);
+        canvas.ctx.beginPath();
+        canvas.ctx.rect(0, 0, canvas.width, canvas.height);
+        canvas.ctx.fillStyle = '#ffffff';
+        canvas.ctx.fill();
+        let light = null;
+        if (this.guns[index].position.y < 0 || this.guns[index].position.y > 4)
+            light = this.game.add.sprite(
+                this.gunsSpr[index].position.x - size/12, 0, canvas);
+        else
+            light = this.game.add.sprite(
+            0, this.gunsSpr[index].position.y - size/12, canvas);
+        return light;
+    }
+
+    shootAnimations(){
         for (let oldI = 0; oldI < this.guns.length; oldI++)
             if (this.logic.guns.indexOf(this.guns[oldI]) === -1){
                 this.shootSound.play();
+                let light = this.createLight(oldI);
+                this.game.add.tween(light).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
                 this.guns.splice(oldI, 1);
-                this.gunsSpr[oldI].destroy();
-                this.gunsSpr.splice(oldI, 1);
+                setTimeout(() => {light.destroy();}, 500);
+                setTimeout(() => {
+                    this.gunsSpr[oldI].destroy();
+                    this.gunsSpr.splice(oldI, 1);
+                }, 250);
             }
     }
 
-    createGun(gun){
+    incomeAnimations(){
+        for (let newI = 0; newI < this.logic.guns.length; newI++)
+            if (this.guns.indexOf(this.logic.guns[newI]) === -1){
+                this.gunSound.play();
+                this.guns.push(this.logic.guns[newI]);
+                let gunSprite = this.createGunSprite(this.logic.guns[newI]);
+                this.gunsSpr.push(gunSprite);
+                setTimeout(() => {
+                    gunSprite.body.velocity.x = 0;
+                    gunSprite.body.velocity.y = 0;
+                }, 120);
+            }
+    }
+
+    createGunSprite(gun){
         let vector = new Vector(gun.position.x, gun.position.y);
-        if (vector.x === -1)
-            vector.x -= 2;
-        if (vector.x === 5)
-            vector.x += 2;
-        if (vector.y === -1)
-            vector.y -= 2;
-        if (vector.y === 5)
-            vector.y += 2;
+        if (vector.x === -1) vector.x -= 2;
+        if (vector.x === 5)  vector.x += 2;
+        if (vector.y === -1) vector.y -= 2;
+        if (vector.y === 5)  vector.y += 2;
         let oldPosition = this.toDrawCoords(vector);
         let newPosition = this.toDrawCoords(gun.position);
         let deltaX = newPosition.x - oldPosition.x;
         let deltaY = newPosition.y - oldPosition.y;
         let gunSpr = this.game.add.sprite(
-            ...oldPosition.values(),
-            'gun');
+            ...oldPosition.values(), 'gun');
         let x = this.game.width;
         gunSpr.width = x/3;
         gunSpr.height = x/3;
         gunSpr.anchor.set(0.5);
-        this.gunsSpr.push(gunSpr);
+        if (vector.x === -3) gunSpr.angle = -90;
+        if (vector.y === 7) gunSpr.angle = 180;
+        if (vector.x === 7) gunSpr.angle = 90;
         this.game.physics.enable(gunSpr);
         gunSpr.body.velocity.x = deltaX * 60 / 5;
         gunSpr.body.velocity.y = deltaY * 60 / 5;
-
+        return gunSpr;
     }
 
     clearField(){
