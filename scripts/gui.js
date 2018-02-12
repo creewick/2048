@@ -31,6 +31,8 @@ class GUI extends Phaser.State {
         this.bgm.play();
         this.gunSound = this.game.add.audio('gun');
         this.shootSound = this.game.add.audio('shoot');
+        this.death1 = this.game.add.audio('death1');
+        this.death2 = this.game.add.audio('death2');
         this.logic.start();
         this.createOutline();
         this.createField();
@@ -119,12 +121,24 @@ class GUI extends Phaser.State {
                           (vector.y + 1) * this.game.width / 6)
     }
 
-    toLogicCoords(vector) {
-        return new Vector(vector.x * 6 / this.game.width - 1,
-                          vector.y * 6 / this.game.width - 1)
+    gameOver(){
+        this.player.destroy();
+        this.death1.play();
+        this.player = this.game.add.sprite(
+            ...this.toDrawCoords(this.logic.position).values(),
+            'dead');
+        let x = this.game.width;
+        this.player.width = x/24;
+        this.player.height = x/24;
+        this.player.anchor.set(0.5);
+        setTimeout(() => {
+            this.death2.play();
+        }, 500);
     }
 
     update() {
+        if (this.logic.isOver)
+            this.gameOver()
         this.actPressedKeys();
         this.logic.update();
         this.player.position = new PIXI.Point(...this.toDrawCoords(this.logic.position).values());
