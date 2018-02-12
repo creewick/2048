@@ -24,8 +24,9 @@ class Logic {
                     this.guns.splice(i, 1);
                 }
             }
-            if (this.shouldAddGun())
-                this.guns.push(new Gun());
+            if (this.shouldAddGun()) {
+                this.guns.push(this.createGun());
+            }
             this.moveAnchor();
             if (this.shouldMoveTiles()) {
                 this.moveTiles();
@@ -33,6 +34,24 @@ class Logic {
                    this.placeTile();
             }
         }
+    }
+
+    createGun(){
+        let gun = {};
+        gun.timer = Logic.randomInt(100, 100);
+        let positions = {
+            1: new Vector(this.position.x, -1),
+            2: new Vector(5, this.position.y),
+            3: new Vector(this.position.x, 5),
+            4: new Vector(-1, this.position.y)
+        };
+        gun.position = positions[Logic.randomInt(1, 4)];
+        gun.action = () => {
+            if (Math.abs(gun.position.x - this.position.x) < 0.5 ||
+                Math.abs(gun.position.y - this.position.y) < 0.5)
+                this.isOver = true;
+        }
+        return gun;
     }
 
     anythingMoved(){

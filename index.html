@@ -25,15 +25,13 @@
     <script src="scripts/mover.js"></script>
     <script src="scripts/control.js"></script>
     <script src="scripts/logic.js"></script>
-    <script src="scripts/gun.js"></script>
     <script src="scripts/gui.js"></script>
     <div id="myGame">2048</div>
     <script>
         let size = Math.min(window.innerHeight, window.innerWidth);
-        let logic = new Logic();
         let game = new Phaser.Game(size, size, Phaser.AUTO, 'myGame',
                                    new preload(), false, false);
-        game.state.add('level', new GUI(logic));
+        game.state.add('level', new GUI(new Logic()));
         game.state.add('load', new load());
     </script>
 </body>

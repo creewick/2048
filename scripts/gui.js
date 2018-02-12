@@ -5,6 +5,7 @@ class GUI extends Phaser.State {
         this.logic = logic;
         this.controller = new Controller();
         this.field = null;
+        this.isOver = false;
         this.guns = [];
         this.gunsSpr = [];
         this.animationTimeout = 0;
@@ -122,6 +123,7 @@ class GUI extends Phaser.State {
     }
 
     gameOver(){
+        this.isOver = true;
         this.player.destroy();
         this.death1.play();
         this.player = this.game.add.sprite(
@@ -134,11 +136,16 @@ class GUI extends Phaser.State {
         setTimeout(() => {
             this.death2.play();
         }, 500);
+        setTimeout(() => {
+            game.state.remove('level');
+            game.state.add('level', new GUI(new Logic()));
+            this.game.state.start('level');
+        }, 1000);
     }
 
     update() {
-        if (this.logic.isOver)
-            this.gameOver()
+        if (this.logic.isOver && !this.isOver)
+            this.gameOver();
         this.actPressedKeys();
         this.logic.update();
         this.player.position = new PIXI.Point(...this.toDrawCoords(this.logic.position).values());
