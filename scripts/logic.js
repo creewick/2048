@@ -38,7 +38,7 @@ class Logic {
 
     createGun(){
         let gun = {};
-        gun.timer = Logic.randomInt(100, 100);
+        gun.timer = Logic.randomInt(50 + (2048 - this.fieldSum()) / 40, 100);
         let positions = {
             1: new Vector(this.position.x, -1),
             2: new Vector(5, this.position.y),
@@ -189,15 +189,16 @@ class Logic {
     }
 
     shouldAddGun(){
-        return (Logic.randomInt(1, 1000) < (Math.log(this.max()) / Math.log(2)) &&
-                this.guns.length < 4);
+        return Logic.randomInt(0, 1024 * 60) < this.fieldSum() / (this.guns.length + 1);
+        // return (Logic.randomInt(1, 1000) < (Math.log(this.max()) / Math.log(2)) &&
+        //         this.guns.length < 4);
     }
 
-    max(){
+    fieldSum(){
         let result = 0;
         for (let y = 0; y < 4; y++)
             for (let x = 0; x < 4; x++)
-                result = Math.max(result, this.field[y][x]);
+                result += this.field[y][x];
         return result;
     }
 

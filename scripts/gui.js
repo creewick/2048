@@ -33,7 +33,6 @@ class GUI extends Phaser.State {
         this.gunSound = this.game.add.audio('gun');
         this.shootSound = this.game.add.audio('shoot');
         this.death1 = this.game.add.audio('death1');
-        this.death2 = this.game.add.audio('death2');
         this.logic.start();
         this.createOutline();
         this.createField();
@@ -124,6 +123,7 @@ class GUI extends Phaser.State {
 
     gameOver(){
         this.isOver = true;
+        this.bgm.stop();
         this.player.destroy();
         this.death1.play();
         this.player = this.game.add.sprite(
@@ -134,12 +134,8 @@ class GUI extends Phaser.State {
         this.player.height = x/24;
         this.player.anchor.set(0.5);
         setTimeout(() => {
-            this.death2.play();
-        }, 500);
-        setTimeout(() => {
-            game.state.remove('level');
-            game.state.add('level', new GUI(new Logic()));
-            this.game.state.start('level');
+            this.game.state.add('gameover', new gameover());
+            this.game.state.start('gameover');
         }, 1000);
     }
 
