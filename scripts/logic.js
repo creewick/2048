@@ -7,8 +7,13 @@ class Logic {
         this.speed = 0.02;
         this.anchorSpeed = this.speed / 2.5;
         this.position = Logic.checkPosition(pos);
+        this.state = 'red';
         this.anchor = this.position.copy();
         this.isOver = false;
+        this.gunActions = {
+            'red': this.redGunAction,
+            'green': this.greenGunAction
+        }
     }
 
     start() {
@@ -20,7 +25,7 @@ class Logic {
         if (!this.isOver){
             for (let i = 0; i < this.guns.length; i++){
                 if (this.guns[i].timer-- < 0){
-                    this.guns[i].action();
+                    this.guns[i].action(this.guns[i]);
                     this.guns.splice(i, 1);
                 }
             }
@@ -36,6 +41,10 @@ class Logic {
         }
     }
 
+    shouldAddGun(){
+        return Logic.randomInt(0, 1024 * 60) < this.fieldSum() / (this.guns.length + 1);
+    }
+
     createGun(){
         let gun = {};
         gun.timer = Logic.randomInt(50 + (2048 - this.fieldSum()) / 40, 100);
@@ -46,12 +55,17 @@ class Logic {
             4: new Vector(-1, this.position.y)
         };
         gun.position = positions[Logic.randomInt(1, 4)];
-        gun.action = () => {
-            if (Math.abs(gun.position.x - this.position.x) < 0.5 ||
-                Math.abs(gun.position.y - this.position.y) < 0.5)
-                this.isOver = true;
-        }
+        gun.action = this.gunActions[this.state];
         return gun;
+    }
+
+    redGunAction(gun){
+        if (Math.abs(gun.position.x - this.position.x) < 0.5 ||
+            Math.abs(gun.position.y - this.position.y) < 0.5)
+            this.isOver = true;
+    }
+
+    greenGunAction(){
     }
 
     anythingMoved(){
@@ -186,12 +200,6 @@ class Logic {
     shouldMoveTiles(){
         let vector = this.position.sub(this.anchor);
         return Math.abs(vector.x) > 0.5 || Math.abs(vector.y) > 0.5;
-    }
-
-    shouldAddGun(){
-        return Logic.randomInt(0, 1024 * 60) < this.fieldSum() / (this.guns.length + 1);
-        // return (Logic.randomInt(1, 1000) < (Math.log(this.max()) / Math.log(2)) &&
-        //         this.guns.length < 4);
     }
 
     fieldSum(){
