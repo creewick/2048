@@ -37,6 +37,8 @@ class GUI extends Phaser.State {
         this.createOutline();
         this.createField();
         this.createPlayer();
+        if (this.game.width <= 926)
+            this.createStick();
     }
 
     createField(){
@@ -51,6 +53,23 @@ class GUI extends Phaser.State {
                 }
             }
         }
+    }
+
+    createStick() {
+        this.stickBase =  this.game.add.sprite(
+            ...this.toDrawCoords(new Vector(2, 7)).values(),
+            'stick1');
+        let x = this.game.width;
+        this.stickBase.width = x/4.5;
+        this.stickBase.height = x/4.5;
+        this.stickBase.anchor.set(0.5);
+        this.stick =  this.game.add.sprite(
+            ...this.toDrawCoords(new Vector(2, 7)).values(),
+            'stick2');
+        this.stick.width = x/4.5;
+        this.stick.height = x/4.5;
+        this.stick.anchor.set(0.5);
+        this.game.input.addPointer();
     }
 
     createRectangle(x, y){
@@ -143,6 +162,7 @@ class GUI extends Phaser.State {
         if (this.logic.isOver && !this.isOver)
             this.gameOver();
         this.actPressedKeys();
+        this.actStick();
         this.logic.update();
         this.player.position = new PIXI.Point(...this.toDrawCoords(this.logic.position).values());
         this.animateGuns();
@@ -305,5 +325,26 @@ class GUI extends Phaser.State {
             if (this.game.input.keyboard.isDown(key))
                 pressed.push(key);
         this.controller.act(this.logic, pressed);
+    }
+
+    actStick(){
+        if (this.game.input.pointer1.isDown){
+            let position = new Vector(this.game.input.pointer1.position.x,
+                                  this.game.input.pointer1.position.y);
+            let anchor = this.toDrawCoords(new Vector(2, 7));
+            let vector = position.sub(anchor);
+            let size = this.stickBase.width;
+            if (vector.norm() < size / 1.1){
+                this.stick.position = this.game.input.pointer1.position;
+                let pressed = [];
+                if (vector.x > size / 8) pressed.push(Phaser.Keyboard.RIGHT);
+                if (vector.x < -size / 8) pressed.push(Phaser.Keyboard.LEFT);
+                if (vector.y > size / 8) pressed.push(Phaser.Keyboard.DOWN);
+                if (vector.y < -size / 8) pressed.push(Phaser.Keyboard.UP);
+                this.controller.act(this.logic, pressed);
+                return;
+            }
+        }
+        this.stick.position = this.stickBase.position;
     }
 }

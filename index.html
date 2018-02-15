@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+     <meta charset="UTF-8" name="viewport" content="width=device-width">
     <title>2048</title>
     <link rel="shortcut icon" href="favicon.ico?v=2">
+    <style>
+        @font-face {
+            font-family: 'ClearSans';
+            src: url("./font.ttf");
+        }
+        html, body { padding: 0; margin: 0; background: black; }
+        canvas { background: black; }
+        div { position: absolute; top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            font-family: ClearSans,serif; color: white;
+            font-size: 0; }
+    </style>
 </head>
-<style>
-    @font-face {
-        font-family: 'ClearSans';
-        src: url("./font.ttf");
-    }
-    html, body { padding: 0; margin: 0; background: black; }
-    canvas { background: black; }
-    div { position: absolute; top: 50%; left: 50%;
-          transform: translateX(-50%) translateY(-50%);
-          font-family: ClearSans,serif; color: white;
-          font-size: 0; }
-</style>
 <body>
     <script src="phaser.js"></script>
     <script src="scripts/preload.js"></script>
@@ -29,8 +29,13 @@
     <script src="scripts/gui.js"></script>
     <div id="myGame">2048</div>
     <script>
-        let size = Math.min(window.innerHeight, window.innerWidth);
-        let game = new Phaser.Game(size, size, Phaser.AUTO, 'myGame',
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        if (width > 926){
+            width = Math.min(width, height);
+            height = Math.min(width, height);
+        }
+        let game = new Phaser.Game(width, height, Phaser.AUTO, 'myGame',
                                    new preload(), false, false);
         game.state.add('level', new GUI(new Logic()));
         game.state.add('load', new load());
