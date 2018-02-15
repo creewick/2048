@@ -57,14 +57,14 @@ class GUI extends Phaser.State {
 
     createStick() {
         this.stickBase =  this.game.add.sprite(
-            ...this.toDrawCoords(new Vector(2, 7)).values(),
+            ...this.toDrawCoords(new Vector(2, 6)).values(),
             'stick1');
         let x = this.game.width;
         this.stickBase.width = x/4.5;
         this.stickBase.height = x/4.5;
         this.stickBase.anchor.set(0.5);
         this.stick =  this.game.add.sprite(
-            ...this.toDrawCoords(new Vector(2, 7)).values(),
+            ...this.toDrawCoords(new Vector(2, 6)).values(),
             'stick2');
         this.stick.width = x/4.5;
         this.stick.height = x/4.5;
@@ -334,13 +334,13 @@ class GUI extends Phaser.State {
             let anchor = this.toDrawCoords(new Vector(2, 7));
             let vector = position.sub(anchor);
             let size = this.stickBase.width;
-            if (vector.norm() < size / 1.1){
+            if (vector.norm() < size * 1.5){
                 this.stick.position = this.game.input.pointer1.position;
                 let pressed = [];
-                if (vector.x > size / 8) pressed.push(Phaser.Keyboard.RIGHT);
-                if (vector.x < -size / 8) pressed.push(Phaser.Keyboard.LEFT);
-                if (vector.y > size / 8) pressed.push(Phaser.Keyboard.DOWN);
-                if (vector.y < -size / 8) pressed.push(Phaser.Keyboard.UP);
+                if (vector.x > size / 4) pressed.push(Phaser.Keyboard.RIGHT);
+                if (vector.x < -size / 4) pressed.push(Phaser.Keyboard.LEFT);
+                if (vector.y > size / 4) pressed.push(Phaser.Keyboard.DOWN);
+                if (vector.y < -size / 4) pressed.push(Phaser.Keyboard.UP);
                 this.controller.act(this.logic, pressed);
                 return;
             }
