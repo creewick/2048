@@ -10,10 +10,6 @@ class Logic {
         this.state = 'red';
         this.anchor = this.position.copy();
         this.isOver = false;
-        this.gunActions = {
-            'red': this.redGunAction,
-            'green': this.greenGunAction
-        }
     }
 
     start() {
@@ -25,11 +21,11 @@ class Logic {
         if (!this.isOver){
             for (let i = 0; i < this.guns.length; i++)
                 if (this.guns[i].timer-- < 0){
-                    this.guns[i].action(this);
+                    this.guns[i].action();
                     this.guns.splice(i, 1);
                 }
             if (this.shouldAddGun())
-                this.guns.push(this.createGun());
+                this.guns.push(new Gun(this));
             this.moveAnchor();
             if (this.shouldMoveTiles()) {
                 this.moveTiles();
@@ -37,42 +33,6 @@ class Logic {
                    this.placeTile();
             }
         }
-    }
-
-    shouldAddGun(){
-        return Logic.randomInt(0, 1024 * 60) < this.fieldSum() / (this.guns.length + 1);
-    }
-
-    createGun(){
-        let gun = {};
-        gun.timer = Logic.randomInt(50 + (2048 - this.fieldSum()) / 40, 100);
-        let positions = {
-            1: new Vector(this.position.x, -1),
-            2: new Vector(5, this.position.y),
-            3: new Vector(this.position.x, 5),
-            4: new Vector(-1, this.position.y)
-        };
-        gun.position = positions[Logic.randomInt(1, 4)];
-        gun.action = this.gunActions[this.state];
-        return gun;
-    }
-
-    redGunAction(game){
-        if (Math.abs(game.position.x - this.position.x) < 0.5 ||
-            Math.abs(game.position.y - this.position.y) < 0.5)
-            game.isOver = true;
-    }
-
-    greenGunAction(){
-    }
-
-    anythingMoved(){
-        for (let y = 0; y < 4; y++)
-            for (let x = 0; x < 4; x++)
-                if (this.animationField[y][x].x !== x ||
-                    this.animationField[y][x].y !== y)
-                    return true;
-        return false;
     }
 
     move(vector){
@@ -86,6 +46,19 @@ class Logic {
         }
     }
 
+    shouldAddGun(){
+        return Logic.randomInt(0, 1024 * 60) < this.fieldSum() / (this.guns.length + 1);
+    }
+
+    anythingMoved(){
+        for (let y = 0; y < 4; y++)
+            for (let x = 0; x < 4; x++)
+                if (this.animationField[y][x].x !== x ||
+                    this.animationField[y][x].y !== y)
+                    return true;
+        return false;
+    }
+    
     moveTiles(){
         let vector = this.position.sub(this.anchor);
         this.dropAnchor();
