@@ -1,5 +1,7 @@
-class GUI extends Phaser.State {
+const FieldAnimationLength = 10;
 
+
+class GUI extends Phaser.State {
     constructor(logic){
         super();
         this.logic = logic;
@@ -8,8 +10,6 @@ class GUI extends Phaser.State {
         this.isOver = false;
         this.guns = [];
         this.gunsSpr = [];
-        this.animationTimeout = 0;
-        this.animationLength = 10;
         this.colors = {
             2:   '#eee4da',
             4:   '#ece0c8',
@@ -166,8 +166,12 @@ class GUI extends Phaser.State {
         this.logic.update();
         this.player.position = new PIXI.Point(...this.toDrawCoords(this.logic.position).values());
         this.animateGuns();
+        this.animateTiles();
+    }
+
+    animateTiles(){
         if (this.logic.animationField !== null)
-            this.animateTiles();
+            this.startFieldAnimation();
         if (this.animationTimeout === 1) {
             this.clearField();
             this.createField();
@@ -178,6 +182,56 @@ class GUI extends Phaser.State {
             this.animationTimeout--;
         else
             this.tiltTiles();
+    }
+
+    startFieldAnimation(){
+        this.animationTimeout = FieldAnimationLength;
+        for (let y = 0; y < 4; y++)
+            for (let x = 0; x < 4; x++)
+                if (this.field[y][x] !== undefined)
+                    this.startTileAnimation(x, y);
+        this.logic.animationField = null;
+    }
+
+    startTileAnimation(x, y){
+        let newPosition = this.toDrawCoords(this.logic.animationField[y][x]);
+        let oldPosition = this.field[y][x].rect.position;
+        let deltaX = newPosition.x - oldPosition.x;
+        let deltaY = newPosition.y - oldPosition.y;
+        this.field[y][x].rect.body.velocity.x = deltaX * 60 / FieldAnimationLength;
+        this.field[y][x].rect.body.velocity.y = deltaY * 60 / FieldAnimationLength;
+        this.field[y][x].text.body.velocity.x = deltaX * 60 / FieldAnimationLength;
+        this.field[y][x].text.body.velocity.y = deltaY * 60 / FieldAnimationLength;
+    }
+
+    tiltTiles(){
+        let tiltVector = this.logic.position
+            .sub(this.logic.anchor);
+        for (let y = 0; y < 4; y++){
+            for (let x = 0; x < 4; x++){
+                if (this.field[y][x] !== undefined)
+                    this.tiltTile(x, y, tiltVector);
+            }
+        }
+    }
+
+    tiltTile(x, y, vector){
+        let rectLogicCoords = new Vector(
+            Math.max(0, Math.min(3, x + vector.x)),
+            Math.max(0, Math.min(3, y + vector.y))
+        );
+        let textLogicCoords = new Vector(
+            Math.max(0, Math.min(3, x + vector.x)) + 0.5,
+            Math.max(0, Math.min(3, y + vector.y)) + 0.5
+        );
+        let rectDrawCoords = this.toDrawCoords(rectLogicCoords);
+        this.field[y][x].rect.position = new PIXI.Point(
+            rectDrawCoords.x - 1, rectDrawCoords.y - 1
+        );
+        let textDrawCoords = this.toDrawCoords(textLogicCoords);
+        this.field[y][x].text.position = new PIXI.Point(
+            textDrawCoords.x - 1, textDrawCoords.y - 1
+        );
     }
 
     animateGuns(){
@@ -269,56 +323,6 @@ class GUI extends Phaser.State {
                 }
     }
 
-    animateTiles(){
-        this.animationTimeout = this.animationLength;
-        for (let y = 0; y < 4; y++)
-            for (let x = 0; x < 4; x++)
-                if (this.field[y][x] !== undefined)
-                    this.animateTile(x, y);
-        this.logic.animationField = null;
-    }
-
-    animateTile(x, y){
-        let newPosition = this.toDrawCoords(this.logic.animationField[y][x]);
-        let oldPosition = this.field[y][x].rect.position;
-        let deltaX = newPosition.x - oldPosition.x;
-        let deltaY = newPosition.y - oldPosition.y;
-        this.field[y][x].rect.body.velocity.x = deltaX * 60 / this.animationLength;
-        this.field[y][x].rect.body.velocity.y = deltaY * 60 / this.animationLength;
-        this.field[y][x].text.body.velocity.x = deltaX * 60 / this.animationLength;
-        this.field[y][x].text.body.velocity.y = deltaY * 60 / this.animationLength;
-    }
-
-    tiltTiles(){
-        let tiltVector = this.logic.position
-                         .sub(this.logic.anchor);
-        for (let y = 0; y < 4; y++){
-            for (let x = 0; x < 4; x++){
-                if (this.field[y][x] !== undefined)
-                    this.tiltTile(x, y, tiltVector);
-            }
-        }
-    }
-
-    tiltTile(x, y, vector){
-        let rectLogicCoords = new Vector(
-            Math.max(0, Math.min(3, x + vector.x)),
-            Math.max(0, Math.min(3, y + vector.y))
-        );
-        let textLogicCoords = new Vector(
-            Math.max(0, Math.min(3, x + vector.x)) + 0.5,
-            Math.max(0, Math.min(3, y + vector.y)) + 0.5
-        );
-        let rectDrawCoords = this.toDrawCoords(rectLogicCoords);
-        this.field[y][x].rect.position = new PIXI.Point(
-            rectDrawCoords.x - 1, rectDrawCoords.y - 1
-        );
-        let textDrawCoords = this.toDrawCoords(textLogicCoords);
-        this.field[y][x].text.position = new PIXI.Point(
-            textDrawCoords.x - 1, textDrawCoords.y - 1
-        );
-    }
-
     actPressedKeys(){
         let pressed = [];
         for (let key in this.controller.controls)
@@ -331,17 +335,16 @@ class GUI extends Phaser.State {
         if (this.game.input.pointer1.isDown){
             let position = new Vector(this.game.input.pointer1.position.x,
                                   this.game.input.pointer1.position.y);
-            let anchor = this.toDrawCoords(new Vector(2, 7));
+            let anchor = new Vector(this.stickBase.position.x,
+                                    this.stickBase.position.y);
             let vector = position.sub(anchor);
             let size = this.stickBase.width;
-            if (vector.norm() < size * 1.5){
-                this.stick.position = this.game.input.pointer1.position;
-                let pressed = [];
-                if (vector.x > size / 4) pressed.push(Phaser.Keyboard.RIGHT);
-                if (vector.x < -size / 4) pressed.push(Phaser.Keyboard.LEFT);
-                if (vector.y > size / 4) pressed.push(Phaser.Keyboard.DOWN);
-                if (vector.y < -size / 4) pressed.push(Phaser.Keyboard.UP);
-                this.controller.act(this.logic, pressed);
+            if (vector.norm() < size * 3){
+                let stick = position;
+                if (vector.norm() > size / 2)
+                    stick = vector.normalize().mul(size / 2).add(anchor);
+                this.stick.position = new PIXI.Point(...stick.values());
+                this.logic.move(vector.normalize());
                 return;
             }
         }
