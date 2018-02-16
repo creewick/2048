@@ -174,6 +174,7 @@ class GUI extends Phaser.State {
 
     changeMusic(){
         if (this.state !== this.logic.state){
+            this.game.add.audio('state').play();
             this.state = this.logic.state;
             if (this.bgm !== undefined)
                 this.bgm.stop();
@@ -326,8 +327,7 @@ class GUI extends Phaser.State {
         }
         for (let newI = 0; newI < this.logic.guns.length; newI++)
             if (this.guns.indexOf(this.logic.guns[newI]) === -1) {
-                this.gunSound = this.game.add.audio(`${this.logic.state}Gun`);
-                this.gunSound.play();
+                this.game.add.audio(`${this.logic.state}Gun`).play();
                 this.guns.push(this.logic.guns[newI]);
                 let gunSprite = this.createGunSprite(this.logic.guns[newI]);
                 this.gunsSpr.push(gunSprite);
