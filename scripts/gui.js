@@ -7,6 +7,7 @@ class GUI extends Phaser.State {
         this.controller = new Controller();
         this.field = null;
         this.isOver = false;
+        this.state = '';
         this.guns = [];
         this.gunsSpr = [];
         this.colors = {
@@ -30,9 +31,6 @@ class GUI extends Phaser.State {
 
     create() {
         this.game.add.audio('start2').play();
-        this.bgm = this.game.add.audio('bgm');
-        this.bgm.loop = true;
-        this.bgm.play();
         this.death1 = this.game.add.audio('death1');
         this.logic.start();
         this.createOutline();
@@ -167,10 +165,22 @@ class GUI extends Phaser.State {
         if (this.stick !== undefined)
             this.actStick();
         this.colorPlayer();
+        this.changeMusic();
         this.logic.update();
         this.player.position = new PIXI.Point(...this.toDrawCoords(this.logic.position).values());
         this.animateGuns();
         this.animateTiles();
+    }
+
+    changeMusic(){
+        if (this.state !== this.logic.state){
+            this.state = this.logic.state;
+            if (this.bgm !== undefined)
+                this.bgm.stop();
+            this.bgm = this.game.add.audio(`${this.state}Music`);
+            this.bgm.loop = true;
+            this.bgm.play();
+        }
     }
 
     colorPlayer(){
