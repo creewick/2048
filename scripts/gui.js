@@ -22,6 +22,10 @@ class GUI extends Phaser.State {
             1024:'#edc53f',
             2048:'#eab914'
         };
+        this.playerTint = {
+            'red': 0xff0000,
+            'green': 0x00ff00
+        }
     }
 
     create() {
@@ -29,8 +33,6 @@ class GUI extends Phaser.State {
         this.bgm = this.game.add.audio('bgm');
         this.bgm.loop = true;
         this.bgm.play();
-        this.gunSound = this.game.add.audio('gun');
-        this.shootSound = this.game.add.audio('shoot');
         this.death1 = this.game.add.audio('death1');
         this.logic.start();
         this.createOutline();
@@ -120,6 +122,7 @@ class GUI extends Phaser.State {
         this.player.width = x/24;
         this.player.height = x/24;
         this.player.anchor.set(0.5);
+        this.player.tint = this.playerTint[this.logic.state];
     }
 
     createOutline(){
@@ -162,10 +165,15 @@ class GUI extends Phaser.State {
             this.gameOver();
         this.actPressedKeys();
         this.actStick();
+        this.colorPlayer();
         this.logic.update();
         this.player.position = new PIXI.Point(...this.toDrawCoords(this.logic.position).values());
         this.animateGuns();
         this.animateTiles();
+    }
+
+    colorPlayer(){
+        this.player.tint = this.playerTint[this.logic.state];
     }
 
     animateTiles(){
@@ -263,6 +271,11 @@ class GUI extends Phaser.State {
     shootAnimations(){
         for (let oldI = 0; oldI < this.guns.length; oldI++)
             if (this.logic.guns.indexOf(this.guns[oldI]) === -1){
+                this.clearField();
+                this.createField();
+                this.player.destroy();
+                this.createPlayer();
+                this.shootSound = this.game.add.audio(`${this.logic.state}Shoot`);
                 this.shootSound.play();
                 let light = this.createLight(this.guns[oldI]);
                 this.game.add.tween(light).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
@@ -286,6 +299,7 @@ class GUI extends Phaser.State {
         }
         for (let newI = 0; newI < this.logic.guns.length; newI++)
             if (this.guns.indexOf(this.logic.guns[newI]) === -1) {
+                this.gunSound = this.game.add.audio(`${this.logic.state}Gun`);
                 this.gunSound.play();
                 this.guns.push(this.logic.guns[newI]);
                 let gunSprite = this.createGunSprite(this.logic.guns[newI]);
@@ -304,10 +318,10 @@ class GUI extends Phaser.State {
         let deltaX = newPosition.x - oldPosition.x;
         let deltaY = newPosition.y - oldPosition.y;
         let gunSpr = this.game.add.sprite(
-            ...oldPosition.values(), 'gun');
+            ...oldPosition.values(), `${this.logic.state}Gun`);
         let x = this.game.width;
-        gunSpr.width = x/3;
-        gunSpr.height = x/3;
+        gunSpr.width = x / 4.5;
+        gunSpr.height = x / 3;
         gunSpr.anchor.set(0.5);
         if (vector.x === -3) gunSpr.angle = -90;
         if (vector.y === 7) gunSpr.angle = 180;
@@ -329,6 +343,8 @@ class GUI extends Phaser.State {
     }
 
     actPressedKeys(){
+        if (this.game.input.pointer1.isDown)
+            return;
         let pressed = [];
         for (let key in this.controller.controls)
             if (this.game.input.keyboard.isDown(key))

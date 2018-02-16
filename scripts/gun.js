@@ -14,6 +14,7 @@ class Gun {
             'down': new Vector(logic.position.x, 5),
             'left': new Vector(-1, logic.position.y)
         };
+        this.color = logic.state;
         this.orientation = orientations[Logic.randomInt(1, 4)];
         this.position = positions[this.orientation];
         this.action = {
@@ -33,6 +34,30 @@ class Gun {
     }
 
     greenGunAction(){
-
+        let first = -1;
+        let last = 4;
+        if (this.isVertical() && Math.abs(this.logic.position.x - this.position.x) < 0.5) {
+            if (this.orientation === 'up')
+                last = Math.floor(this.logic.position.y);
+            if (this.orientation === 'down')
+                first = Math.ceil(this.logic.position.y);
+        }
+        if (!this.isVertical() && Math.abs(this.logic.position.y - this.position.y) < 0.5) {
+            if (this.orientation === 'left')
+                last = Math.floor(this.logic.position.x);
+            if (this.orientation === 'right')
+                first = Math.ceil(this.logic.position.x);
+        }
+        if (this.isVertical()) {
+            let x = Math.round(this.position.x + this.logic.position.x - this.logic.anchor.x - 0.5);
+            for (let y = 0; y < 4; y++)
+                if (y > first && y < last)
+                    this.logic.field[y][x] = 0;
+        } else {
+            let y = Math.round(this.position.y + this.logic.position.y - this.logic.anchor.y - 0.5);
+            for (let x = 0; x < 4; x++)
+                if (x > first && x < last)
+                    this.logic.field[y][x] = 0;
+        }
     }
 }

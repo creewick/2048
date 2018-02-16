@@ -24,14 +24,12 @@ class Mover {
 
     getAnimation(){
         let animation = [];
-        for (let newIndex = 0; newIndex < this.state.length; newIndex++){
-            if (this.state[newIndex].oldIndex !== undefined) {
+        for (let newIndex = 0; newIndex < this.state.length; newIndex++)
+            if (this.state[newIndex].oldIndex !== undefined)
                 for (let i = 0; i < this.state[newIndex].oldIndex.length; i++) {
                     let oldIndex = this.state[newIndex].oldIndex[i];
                     animation[oldIndex] = newIndex;
                 }
-            }
-        }
         return animation;
     }
 
@@ -64,11 +62,7 @@ class Mover {
 
     formatTo(length){
         while (this.state.length < length)
-            this.state.push(
-                {
-                    value: 0
-                }
-            );
+            this.state.push({value: 0});
         return this;
     }
 }

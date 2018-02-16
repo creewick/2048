@@ -8,6 +8,7 @@ class Logic {
         this.anchorSpeed = this.speed / 2.5;
         this.position = Logic.checkPosition(pos);
         this.state = 'red';
+        this.stateValue = 0;
         this.anchor = this.position.copy();
         this.isOver = false;
     }
@@ -24,6 +25,8 @@ class Logic {
                     this.guns[i].action();
                     this.guns.splice(i, 1);
                 }
+            if (this.shouldChangeState())
+                this.changeState();
             if (this.shouldAddGun())
                 this.guns.push(new Gun(this));
             this.moveAnchor();
@@ -46,6 +49,16 @@ class Logic {
         }
     }
 
+    changeState(){
+        let states = ['red', 'green'];
+        this.state = states[Logic.randomInt(0, states.length - 1)];
+        this.stateValue = this.fieldSum();
+    }
+
+    shouldChangeState(){
+        return this.fieldSum() % 64 === 0 && this.stateValue !== this.fieldSum();
+    }
+
     shouldAddGun(){
         return Logic.randomInt(0, 1024 * 60) < this.fieldSum() / (this.guns.length + 1);
     }
@@ -58,7 +71,7 @@ class Logic {
                     return true;
         return false;
     }
-    
+
     moveTiles(){
         let vector = this.position.sub(this.anchor);
         this.dropAnchor();
