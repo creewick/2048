@@ -8,7 +8,7 @@ class Logic {
         this.anchorSpeed = this.speed / 2.5;
         this.position = Logic.checkPosition(pos);
         this.state = 'red';
-        this.stateValue = 0;
+        this.stateField = this.fieldCopy();
         this.anchor = this.position.copy();
         this.isOver = false;
     }
@@ -40,6 +40,16 @@ class Logic {
         }
     }
 
+    fieldCopy(){
+        let result = [];
+        for (let y = 0; y < 4; y++) {
+            result[y] = [];
+            for (let x = 0; x < 4; x++)
+                result[y][x] = this.field[y][x];
+        }
+        return result;
+    }
+
     move(vector){
         if (!this.isOver) {
             if (Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1) {
@@ -54,11 +64,16 @@ class Logic {
     changeState(){
         let states = ['red', 'green'];
         this.state = states[Logic.randomInt(0, states.length - 1)];
-        this.stateValue = this.fieldSum();
+        this.stateField = this.fieldCopy();
     }
 
     shouldChangeState(){
-        return this.fieldSum() % 64 === 0 && this.stateValue !== this.fieldSum();
+        if (this.fieldSum() % 64 === 0)
+            for (let y = 0; y < 4; y++)
+                for (let x = 0; x < 4; x++)
+                    if (this.stateField[y][x] !== this.field[y][x])
+                        return true;
+        return false;
     }
 
     shouldAddGun(){
