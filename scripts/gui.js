@@ -349,7 +349,8 @@ class GUI extends Phaser.State {
                 if (vector.norm() > size / 2)
                     stick = vector.normalize().mul(size / 2).add(anchor);
                 this.stick.position = new PIXI.Point(...stick.values());
-                this.logic.move(vector.normalize());
+                if (size / 8 < vector.norm())
+                    this.logic.move(vector.normalize());
                 return;
             }
         }

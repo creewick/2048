@@ -25,7 +25,7 @@ class load extends Phaser.State {
         this.game.load.audio('death1', './sounds/000029ad.wav');
         this.game.load.audio('success', './sounds/000029e9.wav');
         this.game.load.audio('start2', './sounds/000029f7.wav');
-        this.game.load.audio('bgm', './sounds/dogsong.ogg');
+        this.game.load.audio('bgm', './sounds/dogsong.wav');
     }
 
     complete(){
