@@ -23,15 +23,13 @@ class Logic {
 
     update() {
         if (!this.isOver){
-            for (let i = 0; i < this.guns.length; i++){
+            for (let i = 0; i < this.guns.length; i++)
                 if (this.guns[i].timer-- < 0){
-                    this.guns[i].action(this.guns[i]);
+                    this.guns[i].action(this);
                     this.guns.splice(i, 1);
                 }
-            }
-            if (this.shouldAddGun()) {
+            if (this.shouldAddGun())
                 this.guns.push(this.createGun());
-            }
             this.moveAnchor();
             if (this.shouldMoveTiles()) {
                 this.moveTiles();
@@ -59,10 +57,10 @@ class Logic {
         return gun;
     }
 
-    redGunAction(gun){
-        if (Math.abs(gun.position.x - this.position.x) < 0.5 ||
-            Math.abs(gun.position.y - this.position.y) < 0.5)
-            this.isOver = true;
+    redGunAction(game){
+        if (Math.abs(game.position.x - this.position.x) < 0.5 ||
+            Math.abs(game.position.y - this.position.y) < 0.5)
+            game.isOver = true;
     }
 
     greenGunAction(){
