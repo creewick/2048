@@ -2,6 +2,7 @@ class Gun {
     constructor(logic){
         this.logic = logic;
         this.timer = Logic.randomInt(50 + (2048 - logic.fieldSum()) / 40, 100);
+        console.log(this.timer);
         let orientations = {
             1: 'up',
             2: 'right',

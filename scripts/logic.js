@@ -77,7 +77,10 @@ class Logic {
     }
 
     shouldAddGun(){
-        return Logic.randomInt(0, 1024 * 60) < this.fieldSum() / (this.guns.length + 1);
+        let difficulty = 1;
+        if (this.state === 'green')
+            difficulty = 2;
+        return Logic.randomInt(0, 1024 * 60) < this.fieldSum() / (this.guns.length + 1) / difficulty;
     }
 
     anythingMoved(){
