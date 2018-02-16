@@ -164,7 +164,8 @@ class GUI extends Phaser.State {
         if (this.logic.isOver && !this.isOver)
             this.gameOver();
         this.actPressedKeys();
-        this.actStick();
+        if (this.stick !== undefined)
+            this.actStick();
         this.colorPlayer();
         this.logic.update();
         this.player.position = new PIXI.Point(...this.toDrawCoords(this.logic.position).values());
@@ -248,23 +249,39 @@ class GUI extends Phaser.State {
 
     createLight(gun){
         let size = this.game.width;
-        let canvas = null;
-        if (gun.isVertical())
-            canvas = this.game.add.bitmapData(size/6, size);
-        else
-            canvas = this.game.add.bitmapData(size, size/6);
-        canvas.ctx.beginPath();
-        canvas.ctx.rect(0, 0, canvas.width, canvas.height);
-        canvas.ctx.fillStyle = '#ffffff';
-        canvas.ctx.fill();
         let light = null;
         let vector = this.toDrawCoords(gun.position);
-        if (gun.isVertical())
-            light = this.game.add.sprite(
-                vector.x - size/12, 0, canvas);
-        else
-            light = this.game.add.sprite(
-            0, vector.y - size/12, canvas);
+        if (gun.color === 'red') {
+            let canvas = null;
+            if (gun.isVertical())
+                canvas = this.game.add.bitmapData(size / 6, size);
+            else
+                canvas = this.game.add.bitmapData(size, size / 6);
+            canvas.ctx.beginPath();
+            canvas.ctx.rect(0, 0, canvas.width, canvas.height);
+            canvas.ctx.fillStyle = '#ffffff';
+            canvas.ctx.fill();
+            if (gun.isVertical())
+                light = this.game.add.sprite(
+                    vector.x - size / 12, 0, canvas);
+            else
+                light = this.game.add.sprite(
+                    0, vector.y - size / 12, canvas);
+        }
+        if (gun.color == 'green'){
+            if (gun.isVertical())
+                light = this.game.add.sprite(
+                    vector.x, size/2, 'greenGun');
+            else
+                light = this.game.add.sprite(
+                    size/2, vector.y, 'greenGun');
+            light.height = size;
+            light.width = size / 15;
+            light.anchor.set(0.5);
+            if (gun.orientation === 'left') light.angle = -90;
+            if (gun.orientation === 'down') light.angle = 180;
+            if (gun.orientation === 'right') light.angle = 90;
+        }
         return light;
     }
 
@@ -309,10 +326,10 @@ class GUI extends Phaser.State {
 
     createGunSprite(gun){
         let vector = new Vector(gun.position.x, gun.position.y);
-        if (vector.x === -1) vector.x -= 2;
-        if (vector.x === 5)  vector.x += 2;
-        if (vector.y === -1) vector.y -= 2;
-        if (vector.y === 5)  vector.y += 2;
+        if (gun.orientation === 'left') vector.x -= 2;
+        if (gun.orientation === 'right')  vector.x += 2;
+        if (gun.orientation === 'up') vector.y -= 2;
+        if (gun.orientation === 'down')  vector.y += 2;
         let oldPosition = this.toDrawCoords(vector);
         let newPosition = this.toDrawCoords(gun.position);
         let deltaX = newPosition.x - oldPosition.x;
@@ -320,12 +337,18 @@ class GUI extends Phaser.State {
         let gunSpr = this.game.add.sprite(
             ...oldPosition.values(), `${this.logic.state}Gun`);
         let x = this.game.width;
-        gunSpr.width = x / 4.5;
-        gunSpr.height = x / 3;
+        gunSpr.width = {
+            'red': x / 4.5,
+            'green': x / 15
+        }[gun.color];
+        gunSpr.height = {
+            'red': x / 3,
+            'green': x / 3
+        }[gun.color];
         gunSpr.anchor.set(0.5);
-        if (vector.x === -3) gunSpr.angle = -90;
-        if (vector.y === 7) gunSpr.angle = 180;
-        if (vector.x === 7) gunSpr.angle = 90;
+        if (gun.orientation === 'left') gunSpr.angle = -90;
+        if (gun.orientation === 'down') gunSpr.angle = 180;
+        if (gun.orientation === 'right') gunSpr.angle = 90;
         this.game.physics.enable(gunSpr);
         gunSpr.body.velocity.x = deltaX * 60 / FieldAnimationLength;
         gunSpr.body.velocity.y = deltaY * 60 / FieldAnimationLength;

@@ -18,11 +18,14 @@ class load extends Phaser.State {
 
         this.game.load.image('dead', './images/dead.png');
         this.game.load.image('redGun', './images/blaster.png');
+        this.game.load.image('greenGun', './images/arrow.png');
         this.game.load.image('stick1', './images/stick1.png');
         this.game.load.image('stick2', './images/stick2.png');
         this.game.load.audio('redShoot', './sounds/00000000.wav');
+        this.game.load.audio('greenShoot', './sounds/00000051.wav');
         this.game.load.audio('death2', './sounds/00002a1a.wav');
         this.game.load.audio('redGun', './sounds/00002a2e.wav');
+        this.game.load.audio('greenGun', './sounds/00000029.wav');
         this.game.load.audio('death1', './sounds/000029ad.wav');
         this.game.load.audio('success', './sounds/000029e9.wav');
         this.game.load.audio('start2', './sounds/000029f7.wav');

@@ -19,6 +19,8 @@ class Logic {
     }
 
     update() {
+        if (this.fieldSum() === 0)
+            this.isOver = true;
         if (!this.isOver){
             for (let i = 0; i < this.guns.length; i++)
                 if (this.guns[i].timer-- < 0){
