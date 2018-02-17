@@ -163,6 +163,7 @@ class GUI extends Phaser.State {
         this.player.width = x/24;
         this.player.height = x/24;
         this.player.anchor.set(0.5);
+        this.player.tint = this.playerTint[this.state];
         setTimeout(() => {
             this.game.state.add('gameover', new gameover());
             this.game.state.start('gameover');
