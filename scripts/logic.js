@@ -8,9 +8,14 @@ class Logic {
         this.anchorSpeed = this.speed / 2.5;
         this.position = Logic.checkPosition(pos);
         this.state = 'red';
+        this.stateTimeout = 1000;
         this.stateField = this.fieldCopy();
         this.anchor = this.position.copy();
         this.isOver = false;
+        this.updateMethods = {
+            'red': () => this.redUpdate(),
+            'green': () => this.greenUpdate()
+        }
     }
 
     start() {
@@ -32,12 +37,20 @@ class Logic {
             if (this.shouldAddGun())
                 this.guns.push(new Gun(this));
             this.moveAnchor();
-            if (this.shouldMoveTiles()) {
-                this.moveTiles();
-                if (this.anythingMoved())
-                   this.placeTile();
-            }
+            this.updateMethods[this.state]();
         }
+    }
+
+    redUpdate(){
+        if (this.shouldMoveTiles()) {
+            this.moveTiles();
+            if (this.anythingMoved())
+                this.placeTile();
+        }
+    }
+
+    greenUpdate(){
+        this.dropAnchor();
     }
 
     fieldCopy(){
@@ -65,22 +78,18 @@ class Logic {
         let states = ['red', 'green'];
         this.state = states[Logic.randomInt(0, states.length - 1)];
         this.stateField = this.fieldCopy();
+        this.stateTimeout = 1000;
     }
 
     shouldChangeState(){
-        if (this.fieldSum() % 64 === 0)
-            for (let y = 0; y < 4; y++)
-                for (let x = 0; x < 4; x++)
-                    if (this.stateField[y][x] !== this.field[y][x])
-                        return true;
-        return false;
+        if (this.stateTimeout > 0) this.stateTimeout--;
+        return this.stateTimeout === 0 && Logic.randomInt(0, 1024 * 60) < this.fieldSum();
     }
 
     shouldAddGun(){
-        let difficulty = 1;
         if (this.state === 'green')
-            difficulty = 2;
-        return Logic.randomInt(0, 1024 * 60) < this.fieldSum() / (this.guns.length + 1) / difficulty;
+            return Logic.randomInt(0, 250) === 0;
+        return Logic.randomInt(0, 1024 * 60) < this.fieldSum() / (this.guns.length + 1);
     }
 
     anythingMoved(){
@@ -203,7 +212,7 @@ class Logic {
 
     shouldMoveTiles(){
         let vector = this.position.sub(this.anchor);
-        return Math.abs(vector.x) > 0.5 || Math.abs(vector.y) > 0.5;
+        return vector.norm() > 0.5;
     }
 
     fieldSum(){
@@ -216,6 +225,8 @@ class Logic {
 
     placeTile() {
         let emptyTiles = this.emptyTiles();
+        if (emptyTiles.length === 0)
+            return;
         let i = Logic.randomInt(0, emptyTiles.length - 1);
         let emptyCoords = emptyTiles[i];
         if (Logic.randomInt(0, 99) <= 90)

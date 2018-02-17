@@ -25,7 +25,7 @@ class GUI extends Phaser.State {
         };
         this.playerTint = {
             'red': 0xff0000,
-            'green': 0x00ff00
+            'green': 0x32c315
         }
     }
 
@@ -36,8 +36,24 @@ class GUI extends Phaser.State {
         this.createOutline();
         this.createField();
         this.createPlayer();
+        this.createGreenPlayer();
         if (this.game.width <= 926)
             this.createStick();
+    }
+
+    //CREATE
+    createGreenPlayer(){
+        let size = this.game.width;
+        let canvas = this.game.add.bitmapData(size/6, size/6);
+        canvas.ctx.beginPath();
+        canvas.ctx.arc(size/12, size/12, size/24, 0, 2*Math.PI, false);
+        canvas.ctx.strokeStyle = '#1532c3';
+        canvas.ctx.lineWidth = '2';
+        canvas.ctx.stroke();
+        this.greenPlayer = this.game.add.sprite(
+            this.player.position.x, this.player.position.y, canvas);
+        this.greenPlayer.anchor.set(0.5);
+        this.greenPlayer.visible = this.logic.state === 'green';
     }
 
     createField(){
@@ -135,11 +151,6 @@ class GUI extends Phaser.State {
         window.graphics = graphics;
     }
 
-    toDrawCoords(vector) {
-        return new Vector((vector.x + 1) * this.game.width / 6,
-                          (vector.y + 1) * this.game.width / 6)
-    }
-
     gameOver(){
         this.isOver = true;
         this.bgm.stop();
@@ -164,38 +175,38 @@ class GUI extends Phaser.State {
         this.actPressedKeys();
         if (this.stick !== undefined)
             this.actStick();
-        this.colorPlayer();
-        this.changeMusic();
+        if (this.state !== this.logic.state){
+            this.changeMusic();
+            this.changePlayer();
+            this.state = this.logic.state;
+        }
         this.logic.update();
         this.player.position = new PIXI.Point(...this.toDrawCoords(this.logic.position).values());
+        this.greenPlayer.position = this.player.position;
         this.animateGuns();
         this.animateTiles();
     }
 
     changeMusic(){
-        if (this.state !== this.logic.state){
-            this.game.add.audio('state').play();
-            this.state = this.logic.state;
-            if (this.bgm !== undefined)
-                this.bgm.stop();
-            this.bgm = this.game.add.audio(`${this.state}Music`);
-            this.bgm.loop = true;
-            this.bgm.play();
-        }
+        this.game.add.audio('state').play();
+        if (this.bgm !== undefined)
+            this.bgm.fadeOut(1000);
+        this.bgm = this.game.add.audio(`${this.logic.state}Music`);
+        this.bgm.loop = true;
+        this.bgm.play();
     }
 
-    colorPlayer(){
+    changePlayer(){
         this.player.tint = this.playerTint[this.logic.state];
+        this.greenPlayer.visible = this.logic.state === 'green';
     }
 
+    //TILES ANIMATION
     animateTiles(){
         if (this.logic.animationField !== null)
             this.startFieldAnimation();
         if (this.animationTimeout === 1) {
-            this.clearField();
-            this.createField();
-            this.player.destroy();
-            this.createPlayer();
+            this.redraw();
         }
         if (this.animationTimeout > 0)
             this.animationTimeout--;
@@ -253,6 +264,7 @@ class GUI extends Phaser.State {
         );
     }
 
+    //GUNS ANIMATION
     animateGuns(){
         this.incomeAnimations();
         this.shootAnimations();
@@ -299,11 +311,8 @@ class GUI extends Phaser.State {
     shootAnimations(){
         for (let oldI = 0; oldI < this.guns.length; oldI++)
             if (this.logic.guns.indexOf(this.guns[oldI]) === -1){
-                this.clearField();
-                this.createField();
-                this.player.destroy();
-                this.createPlayer();
-                this.shootSound = this.game.add.audio(`${this.logic.state}Shoot`);
+                this.redraw();
+                this.shootSound = this.game.add.audio(`${this.guns[oldI].color}Shoot`);
                 this.shootSound.play();
                 let light = this.createLight(this.guns[oldI]);
                 this.game.add.tween(light).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
@@ -345,7 +354,7 @@ class GUI extends Phaser.State {
         let deltaX = newPosition.x - oldPosition.x;
         let deltaY = newPosition.y - oldPosition.y;
         let gunSpr = this.game.add.sprite(
-            ...oldPosition.values(), `${this.logic.state}Gun`);
+            ...oldPosition.values(), `${gun.color}Gun`);
         let x = this.game.width;
         gunSpr.width = {
             'red': x / 4.5,
@@ -366,6 +375,16 @@ class GUI extends Phaser.State {
         return gunSpr;
     }
 
+    redraw(){
+        this.clearField();
+        this.player.destroy();
+        this.greenPlayer.destroy();
+
+        this.createField();
+        this.createPlayer();
+        this.createGreenPlayer();
+    }
+
     clearField(){
         for (let y = 0; y < 4; y++)
             for (let x = 0; x < 4; x++)
@@ -375,6 +394,12 @@ class GUI extends Phaser.State {
                 }
     }
 
+    toDrawCoords(vector) {
+        return new Vector((vector.x + 1) * this.game.width / 6,
+            (vector.y + 1) * this.game.width / 6)
+    }
+
+    //CONTROLS
     actPressedKeys(){
         if (this.game.input.pointer1.isDown)
             return;
