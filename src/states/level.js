@@ -1,5 +1,3 @@
-class level extends Phaser.State {
-    preload() {
-        console.log('чмок')
-    }
+class Level extends Phaser.State {
+
 }
