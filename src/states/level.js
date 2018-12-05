@@ -2,6 +2,8 @@ class Level extends Phaser.State {
     create() {
         this.createBox();
         this.createPlayer();
+        
+        this.game.add.audio('start').play();
     }
 
     createBox() {

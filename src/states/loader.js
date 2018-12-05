@@ -10,7 +10,6 @@ class Loader extends Phaser.State {
     }
 
     create() {
-        this.game.add.audio('start').play();
         this.game.state.start('level');
     }
 
