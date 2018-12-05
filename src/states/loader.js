@@ -5,11 +5,12 @@ class Loader extends Phaser.State {
 
         this.loadFiles('./src/sounds', 
             ['green/shot', 'green/warn', 'red/shot', 'red/warn', 'break', 'change', 'death', 'hit', 'loading', 'start'],'ogg');
-        this.loadFiles('./src/images', ['dead'], 'gif');
+        this.loadFiles('./src/images', ['dead', 'red', 'green'], 'gif');
         this.loadFiles('./src/music', ['dogsong', 'sans', 'undyne'], 'ogg');
     }
 
     create() {
+        this.game.add.audio('start').play();
         this.game.state.start('level');
     }
 
@@ -49,7 +50,7 @@ class Loader extends Phaser.State {
     }
 
     fileComplete() {
-        if (this.counter++ % 10 == 0) {
+        if (this.counter++ % 7 == 0) {
             this.loading.play();
         }
     }
